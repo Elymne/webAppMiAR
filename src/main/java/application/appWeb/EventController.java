@@ -5,15 +5,27 @@
  */
 package application.appWeb;
 
+import api.entities.Event;
+import domain.Service;
+import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class EventController {
     
+    @Autowired
+    Service service;
+    
     @RequestMapping("/")
     public String index() {
         return "Greetings from Spring Boot!";
+    }
+    
+    @RequestMapping("/event/all")
+    public List<Event> getAllEvents() {
+        return service.getAllEvents();
     }
     
 }
