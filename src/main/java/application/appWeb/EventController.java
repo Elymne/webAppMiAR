@@ -31,6 +31,12 @@ public class EventController {
         return service.getAllEvents();
     }
 
+    @RequestMapping(value = "/evenement/{id}")
+    @ResponseBody
+    public Event getEventById(@PathVariable("id") String id) {
+        return service.getEventById(id);
+    }
+
     @GetMapping("/evenement/charger")
     @ResponseBody
     public String eventLoad() {
@@ -39,7 +45,7 @@ public class EventController {
     }
 
     @GetMapping("/greeting")
-    public String greeting(@RequestParam(name="name", required=false, defaultValue="World") String name, Model model) {
+    public String greeting(@RequestParam(name = "name", required = false, defaultValue = "World") String name, Model model) {
         model.addAttribute("name", name);
         return "greeting";
     }
