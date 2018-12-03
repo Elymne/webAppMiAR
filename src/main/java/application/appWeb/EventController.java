@@ -9,37 +9,39 @@ import api.entities.Event;
 import domain.Service;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 
-@RestController
+@Controller
 public class EventController {
 
     @Autowired
     Service service;
 
-    @RequestMapping("/")
+    @GetMapping("/")
+    @ResponseBody
     public String index() {
         return "Greetings from Spring Boot!";
     }
 
-    @RequestMapping("/evenement/tous")
+    @GetMapping("/evenement/tous")
+    @ResponseBody
     public List<Event> getAllEvents() {
         return service.getAllEvents();
     }
 
-    @RequestMapping("/evenement/charger")
+    @GetMapping("/evenement/charger")
+    @ResponseBody
     public String eventLoad() {
         service.loadAllEvent();
         return "Chargement des évènements";
     }
 
-    @RequestMapping(value = "/evenement/{id}")
-    @ResponseBody
-    public Event getEventById(@PathVariable("id") String id) {
-        return service.getEventById(id);
+    @GetMapping("/greeting")
+    public String greeting(@RequestParam(name="name", required=false, defaultValue="World") String name, Model model) {
+        model.addAttribute("name", name);
+        return "greeting";
     }
 
 }
