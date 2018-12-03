@@ -21,5 +21,15 @@ public class Service {
     public void loadAllEvent() {
         loadBdd.putAllEvents();
     }
+    
+    public Event getEventById(String id){
+        Event res = null;
+        for(Event unEvent : factory.getAllEvents()){
+            if(unEvent.getId().equals(id)){
+                res = unEvent;
+            }
+        }
+        return res;
+    }
 
 }

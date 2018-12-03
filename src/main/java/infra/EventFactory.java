@@ -73,7 +73,7 @@ public class EventFactory implements Factory, LoadBdd{
         while (cursor.hasNext()) {
             obj = cursor.next();
             event = new Event();
-            //event.setId(obj.get("_id").toString());
+            event.setId(obj.get("_id").toString());
             event.setNom(obj.get("nom").toString());
             event.setDescription(obj.get("description").toString());
             event.setType(obj.get("type").toString());
