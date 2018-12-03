@@ -23,9 +23,15 @@ public class EventController {
         return "Greetings from Spring Boot!";
     }
     
-    @RequestMapping("/event/all")
+    @RequestMapping("/evenement/tous")
     public List<Event> getAllEvents() {
         return service.getAllEvents();
+    }
+    
+    @RequestMapping("/evenement/charger")
+    public String eventLoad() {
+        service.loadAllEvent();
+        return "Chargement des évènements";
     }
     
 }

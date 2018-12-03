@@ -12,7 +12,6 @@ public class Event {
     private String nomLieu;
     private String adresse;
     private String siteWeb;
-    private boolean isGratuit;
     private String imageUrl;
     private double locationX;
     private double locationY;
@@ -99,14 +98,6 @@ public class Event {
 
     public void setSiteWeb(String siteWeb) {
         this.siteWeb = siteWeb;
-    }
-
-    public boolean isIsGratuit() {
-        return isGratuit;
-    }
-
-    public void setIsGratuit(boolean isGratuit) {
-        this.isGratuit = isGratuit;
     }
 
     public String getImageUrl() {
