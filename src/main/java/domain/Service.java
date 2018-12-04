@@ -25,7 +25,7 @@ public class Service {
     public Event getEventById(String id){
         Event res = null;
         for(Event unEvent : factory.getAllEvents()){
-            if(unEvent.getId().equals(id)){
+            if(unEvent.id.equals(id)){
                 res = unEvent;
             }
         }

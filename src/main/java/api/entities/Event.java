@@ -10,13 +10,20 @@ public class Event
 	public String	description;
 	public String	type;
 	public String	date;
-	public String	heureDeb;
-	public String	heureFin;
-	public String	nomLieu;
+	public String	heure_debut;
+	public String	heure_fin;
+	public String	lieu;
 	public String	adresse;
-	public String	siteWeb;
-	public String	imageUrl;
+	public String	url_internet_1;
+	public String	media_1;
+        public String location;
 	public double	locationX;
 	public double	locationY;
+        
+        public void setRealLocation(){
+            String resLocation[] = location.split(",");
+            this.locationX = (Double.parseDouble(resLocation[0]));
+            this.locationY = (Double.parseDouble(resLocation[1]));
+        }
 
 }

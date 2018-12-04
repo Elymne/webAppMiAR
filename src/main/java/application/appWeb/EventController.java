@@ -49,7 +49,7 @@ public class EventController {
     public String greeting(Event event, Model model) {
         event = service.getEventById("1");
         if(event != null){
-            model.addAttribute("event", event.getNom());
+            model.addAttribute("event", event.nom);
         }else{
             model.addAttribute("event", "ERREUR");
         }

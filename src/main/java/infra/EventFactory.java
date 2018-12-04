@@ -16,64 +16,69 @@ import api.Factory;
 import api.LoadBdd;
 import api.entities.Event;
 
-public class EventFactory implements Factory, LoadBdd
-{
+public class EventFactory implements Factory, LoadBdd {
 
-	@Autowired
-	EventRepository eventRepository;
+    @Autowired
+    EventRepository eventRepository;
 
-	EventMongoDb eventMongoDb = new EventMongoDb();
+    EventMongoDb eventMongoDb = new EventMongoDb();
 
-	@Override
-	public List< Event > getAllEvents()
-	{
-		// List< Event > dbEvents = getFromDatabase();
-		// TODO: ici, la logique pour récup les events depuis la db (ou sinon depuis le
-		// repo si y'en a pas)
-		return buildEvents( eventRepository.getAll() );
-	}
+    @Override
+    public List< Event> getAllEvents() {
+        DBCollection resFromRepo = eventMongoDb.getAll();
+        List<Event> res = eventBuild(resFromRepo);
+        return res;
+    }
 
-	@Override
-	public void putAllEvents()
-	{
-		JsonNode nodes = eventRepository.getAll();
-		// eventMongoDb.loadEvent( resFromRepo );
-	}
+    @Override
+    public void putAllEvents() {
+        JsonNode nodes = eventRepository.getAll();
+        eventMongoDb.loadEvent(buildEvents(nodes));
+    }
 
-	private List< Event > buildEvents( JsonNode nodes )
-	{
-		ObjectMapper	mapper	= new ObjectMapper();
-		List< Event >	list	= new ArrayList<>();
+    private List< Event> buildEvents(JsonNode nodes) {
+        ObjectMapper mapper = new ObjectMapper();
+        List< Event> list = new ArrayList<>();
 
-		try
-		{
-			for( JsonNode node : nodes )
-				list.add( mapper.readValue( node.findValue( "fields" ).toString(), Event.class ) );
-		}
-		catch( IOException e )
-		{
-			e.printStackTrace();
-		}
+        try {
+            for (JsonNode node : nodes) {
+                list.add(mapper.readValue(node.findValue("fields").toString(), Event.class));
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
-		return list;
-	}
+        return list;
+    }
 
-	private List< Event > getFromDatabase()
-	{
-		DBCollection	collection	= eventMongoDb.getAll();
-		List< Event >	res			= new ArrayList<>();
-		DBCursor		cursor		= collection.find();
+    public List<Event> eventBuild(DBCollection objectDB) {
+        List<Event> lesEvents = new ArrayList<>();
+        DBObject obj;
+        Event event;
+        DBCursor cursor = objectDB.find();
+        double locationX, locationY;
+        while (cursor.hasNext()) {
+            obj = cursor.next();
+            event = new Event();
+            event.id = (obj.get("_id").toString());
+            event.nom = (obj.get("nom").toString());
+            event.description = (obj.get("description").toString());
+            event.type = (obj.get("type").toString());
+            event.date = (obj.get("date").toString());
+            event.heure_debut = (obj.get("heureDebut").toString());
+            event.heure_fin = (obj.get("heureFin").toString());
+            event.lieu = (obj.get("nomLieu").toString());
+            event.adresse  = (obj.get("adresse").toString());
+            event.url_internet_1 = (obj.get("siteWeb").toString());
+            event.media_1 = (obj.get("imageUrl").toString());
+            locationX = new Double(obj.get("locationX").toString());
+            locationY = new Double(obj.get("locationY").toString());
+            event.locationX = (locationX);
+            event.locationY = (locationY);
 
-
-		while( cursor.hasNext() )
-		{
-			DBObject object = cursor.next();
-			// object.get( key )
-		}
-
-		return res;
-	}
-
-
+            lesEvents.add(event);
+        }
+        return lesEvents;
+    }
 
 }
