@@ -9,6 +9,7 @@ import api.entities.Event;
 import domain.Service;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import static org.springframework.http.RequestEntity.method;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -45,8 +46,13 @@ public class EventController {
     }
 
     @GetMapping("/greeting")
-    public String greeting(@RequestParam(name = "name", required = false, defaultValue = "World") String name, Model model) {
-        model.addAttribute("name", name);
+    public String greeting(Event event, Model model) {
+        event = service.getEventById("1");
+        if(event != null){
+            model.addAttribute("event", event.getNom());
+        }else{
+            model.addAttribute("event", "ERREUR");
+        }
         return "greeting";
     }
 

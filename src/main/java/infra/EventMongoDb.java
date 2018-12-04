@@ -52,7 +52,7 @@ public class EventMongoDb implements Repository<DBCollection> {
     }
 
     private List<Object> verification(Event unEvent) {
-        String type, date, heureDebut, heureFin, nomLieu, adresse, siteWeb, imageUrl, locationX, locationY;
+        String heureDebut, heureFin, siteWeb, imageUrl;
         List<Object> res = new ArrayList<>();
         if (unEvent.getSiteWeb() == null) {
             siteWeb = "";
