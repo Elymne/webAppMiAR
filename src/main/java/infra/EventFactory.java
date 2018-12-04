@@ -21,11 +21,11 @@ public class EventFactory implements Factory, LoadBdd {
     @Autowired
     EventRepository eventRepository;
 
-    EventMongoDb eventMongoDb = new EventMongoDb();
+    mongoDb mongoDb = new mongoDb();
 
     @Override
-    public List< Event> getAllEvents() {
-        DBCollection resFromRepo = eventMongoDb.getAll();
+    public List< Event> getAll() {
+        DBCollection resFromRepo = mongoDb.getAllEvent();
         List<Event> res = eventBuild(resFromRepo);
         return res;
     }
@@ -33,7 +33,7 @@ public class EventFactory implements Factory, LoadBdd {
     @Override
     public void putAllEvents() {
         JsonNode nodes = eventRepository.getAll();
-        eventMongoDb.loadEvent(buildEvents(nodes));
+        mongoDb.loadEvent(buildEvents(nodes));
     }
 
     private List< Event> buildEvents(JsonNode nodes) {

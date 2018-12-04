@@ -3,8 +3,8 @@ package api;
 import api.entities.Event;
 import java.util.List;
 
-public interface Factory {
+public interface Factory<T> {
     
-    public List<Event> getAllEvents();
+    public List<T> getAll();
     
 }

@@ -1,15 +1,10 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package application.appWeb;
 
+import api.entities.Commentary;
 import api.entities.Event;
 import domain.Service;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
-import static org.springframework.http.RequestEntity.method;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -22,17 +17,37 @@ public class EventController {
 
     @GetMapping("/")
     @ResponseBody
-    public String index() {
-        return "Greetings from Spring Boot!";
+    public String getHome(List<Event> lesEvents, Model model) {
+        lesEvents = service.getAllEvents();
+        if (lesEvents != null) {
+            model.addAttribute("lesEvents", lesEvents);
+        } else {
+            model.addAttribute("lesEvents", "Aucunes événements dans la base de données");
+        }
+        return "home";
     }
 
-    @GetMapping("/evenement/tous")
+    @RequestMapping(value = "/test/evenement/{id}")
+    @ResponseBody
+    public String getEvenement(@PathVariable("id") String id, Event unEvent, List<Commentary> lesCommentaires, Model model) {
+        unEvent = service.getEventById(id);
+        lesCommentaires = service.getAllCommentaryById(id);
+        if (unEvent != null) {
+            model.addAttribute("unEvent", unEvent.nom);
+            model.addAttribute("lesCommentaires", lesCommentaires);
+        } else {
+            model.addAttribute("unEvent", "Selection d'un événement innexistant");
+        }
+        return "evenement";
+    }
+
+    @GetMapping("/test/evenement/tous")
     @ResponseBody
     public List<Event> getAllEvents() {
         return service.getAllEvents();
     }
 
-    @RequestMapping(value = "/evenement/{id}")
+    @RequestMapping(value = "/test/evenement/{id}")
     @ResponseBody
     public Event getEventById(@PathVariable("id") String id) {
         return service.getEventById(id);
@@ -44,16 +59,4 @@ public class EventController {
         service.loadAllEvent();
         return "Chargement des évènements";
     }
-
-    @GetMapping("/greeting")
-    public String greeting(Event event, Model model) {
-        event = service.getEventById("1");
-        if(event != null){
-            model.addAttribute("event", event.nom);
-        }else{
-            model.addAttribute("event", "ERREUR");
-        }
-        return "greeting";
-    }
-
 }

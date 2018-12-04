@@ -11,11 +11,16 @@ import com.mongodb.MongoClientURI;
 import api.entities.Event;
 import com.mongodb.DBObject;
 
-public class EventMongoDb {
+public class mongoDb {
 
-    public DBCollection getAll() {
+    public DBCollection getAllEvent() {
         MongoClient mongoClient = new MongoClient(new MongoClientURI("mongodb://localhost:27017"));
         return mongoClient.getDB("appWeb").getCollection("event");
+    }
+    
+    public DBCollection getAllCommentary() {
+        MongoClient mongoClient = new MongoClient(new MongoClientURI("mongodb://localhost:27017"));
+        return mongoClient.getDB("appWeb").getCollection("commentary");
     }
 
     public void loadEvent(List< Event> lesEvents) {
@@ -27,7 +32,7 @@ public class EventMongoDb {
         
 
         for (Event unEvent : lesEvents) {
-            attribut = verification(unEvent);
+            attribut = verificationEvent(unEvent);
             unEvent.setRealLocation();
             event = new BasicDBObject("_id", unEvent.id)
                     .append("nom", unEvent.nom)
@@ -46,7 +51,7 @@ public class EventMongoDb {
         }
     }
     
-    private List<Object> verification(Event unEvent) {
+    private List<Object> verificationEvent(Event unEvent) {
         String heureDebut, heureFin, siteWeb, imageUrl, lieu;
         List<Object> res = new ArrayList<>();
         if (unEvent.media_1 == null) {
