@@ -1,9 +1,10 @@
 package api;
 
-import java.util.List;
+import com.fasterxml.jackson.databind.JsonNode;
 
-public interface Repository<T> {
+public interface Repository
+{
 
-    public List<T> getAll();
+	public JsonNode getAll();
 
 }

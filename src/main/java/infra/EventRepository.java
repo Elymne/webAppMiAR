@@ -1,21 +1,22 @@
 package infra;
 
-import api.Repository;
-import infra.data.event.EventData;
-import java.util.ArrayList;
-import java.util.List;
 import org.springframework.web.client.RestTemplate;
 
-public class EventRepository implements Repository<EventData>{
+import com.fasterxml.jackson.databind.JsonNode;
 
-    @Override
-    public List<EventData> getAll() {
-        RestTemplate restTemplate = new RestTemplate();
-        String url = "https://data.nantesmetropole.fr/api/records/1.0/search/?dataset=244400404_agenda-evenements-nantes-nantes-metropole&rows=100";
-        EventData resObj = restTemplate.getForObject(url, EventData.class);
-        List<EventData> res = new ArrayList<>();
-        res.add(resObj);
-        return res;
-    }
+import api.Repository;
+
+public class EventRepository implements Repository
+{
+	public static String baseUrl = "https://data.nantesmetropole.fr/api/records/1.0/search/?dataset=";
+
+	@Override
+	public JsonNode getAll()
+	{
+		return new RestTemplate()
+				.getForObject( baseUrl + "244400404_agenda-evenements-nantes-nantes-metropole&rows=100",
+						JsonNode.class )
+				.get( "records" );
+	}
 
 }
