@@ -1,10 +1,12 @@
 package api.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 @JsonIgnoreProperties( ignoreUnknown = true )
 public class Event
 {
+	@JsonProperty( "_id" )
 	public String	id;
 	public String	nom;
 	public String	description;

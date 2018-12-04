@@ -8,21 +8,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.mongodb.DBCollection;
-import com.mongodb.DBCursor;
-import com.mongodb.DBObject;
 
+import api.Database;
 import api.Factory;
-import api.LoadBdd;
 import api.entities.Event;
 
-public class EventFactory implements Factory, LoadBdd
+public class EventFactory implements Factory
 {
 
 	@Autowired
 	EventRepository eventRepository;
 
-	EventMongoDb eventMongoDb = new EventMongoDb();
+	@Autowired
+	Database eventMongoDb;
 
 	@Override
 	public List< Event > getAllEvents()
@@ -33,7 +31,6 @@ public class EventFactory implements Factory, LoadBdd
 		return buildEvents( eventRepository.getAll() );
 	}
 
-	@Override
 	public void putAllEvents()
 	{
 		JsonNode nodes = eventRepository.getAll();
@@ -60,18 +57,7 @@ public class EventFactory implements Factory, LoadBdd
 
 	private List< Event > getFromDatabase()
 	{
-		DBCollection	collection	= eventMongoDb.getAll();
-		List< Event >	res			= new ArrayList<>();
-		DBCursor		cursor		= collection.find();
-
-
-		while( cursor.hasNext() )
-		{
-			DBObject object = cursor.next();
-			// object.get( key )
-		}
-
-		return res;
+		return null;
 	}
 
 

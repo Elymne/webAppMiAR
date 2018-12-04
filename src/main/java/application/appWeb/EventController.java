@@ -5,55 +5,68 @@
  */
 package application.appWeb;
 
-import api.entities.Event;
-import domain.Service;
 import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import static org.springframework.http.RequestEntity.method;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import api.entities.Event;
+import domain.Service;
 
 @Controller
-public class EventController {
+public class EventController
+{
 
-    @Autowired
-    Service service;
+	@Autowired
+	Service service;
 
-    @GetMapping("/")
-    @ResponseBody
-    public String index() {
-        return "Greetings from Spring Boot!";
-    }
+	@GetMapping( "/" )
+	@ResponseBody
+	public String index()
+	{
+		return "Greetings from Spring Boot!";
+	}
 
-    @GetMapping("/evenement/tous")
-    @ResponseBody
-    public List<Event> getAllEvents() {
-        return service.getAllEvents();
-    }
+	@GetMapping( "/evenement/tous" )
+	@ResponseBody
+	public List< Event > getAllEvents()
+	{
+		return service.getAllEvents();
+	}
 
-    @RequestMapping(value = "/evenement/{id}")
-    @ResponseBody
-    public Event getEventById(@PathVariable("id") String id) {
-        return service.getEventById(id);
-    }
+	@RequestMapping( value = "/evenement/{id}" )
+	@ResponseBody
+	public Event getEventById( @PathVariable( "id" ) String id )
+	{
+		return service.getEventById( id );
+	}
 
-    @GetMapping("/evenement/charger")
-    @ResponseBody
-    public String eventLoad() {
-        service.loadAllEvent();
-        return "Chargement des évènements";
-    }
+	@GetMapping( "/evenement/charger" )
+	@ResponseBody
+	public String eventLoad()
+	{
+		service.loadAllEvents();
+		return "Chargement des évènements";
+	}
 
-    @GetMapping("/greeting")
-    public String greeting(Event event, Model model) {
-        event = service.getEventById("1");
-        if(event != null){
-            model.addAttribute("event", event.getNom());
-        }else{
-            model.addAttribute("event", "ERREUR");
-        }
-        return "greeting";
-    }
+	@GetMapping( "/greeting" )
+	public String greeting( Event event, Model model )
+	{
+		event = service.getEventById( "1" );
+		if( event != null )
+		{
+			model.addAttribute( "event", event.nom );
+		}
+		else
+		{
+			model.addAttribute( "event", "ERREUR" );
+		}
+		return "greeting";
+	}
 
 }

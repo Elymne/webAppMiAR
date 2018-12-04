@@ -3,10 +3,12 @@ package application.appWeb;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import api.Database;
 import api.Factory;
 import domain.Service;
 import infra.EventFactory;
 import infra.EventRepository;
+import infra.MongoDatabaseClient;
 
 @Configuration
 public class Config
@@ -28,6 +30,12 @@ public class Config
 	public EventRepository getEventRepository()
 	{
 		return new EventRepository();
+	}
+
+	@Bean
+	public Database getDatabase()
+	{
+		return new MongoDatabaseClient();
 	}
 
 }

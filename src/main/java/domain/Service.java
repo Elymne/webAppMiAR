@@ -1,35 +1,43 @@
 package domain;
 
-import api.Factory;
-import api.LoadBdd;
-import api.entities.Event;
 import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
-public class Service {
+import api.Database;
+import api.Factory;
+import api.entities.Event;
 
-    @Autowired
-    Factory factory;
-    
-    @Autowired
-    LoadBdd loadBdd;
+public class Service
+{
 
-    public List<Event> getAllEvents() {
-        return factory.getAllEvents();
-    }
-    
-    public void loadAllEvent() {
-        loadBdd.putAllEvents();
-    }
-    
-    public Event getEventById(String id){
-        Event res = null;
-        for(Event unEvent : factory.getAllEvents()){
-            if(unEvent.getId().equals(id)){
-                res = unEvent;
-            }
-        }
-        return res;
-    }
+	@Autowired
+	Factory factory;
+
+	@Autowired
+	Database mongodb;
+
+	public List< Event > getAllEvents()
+	{
+		return factory.getAllEvents();
+	}
+
+	public void loadAllEvents()
+	{
+		mongodb.test();
+	}
+
+	public Event getEventById( String id )
+	{
+		Event res = null;
+		for( Event unEvent : factory.getAllEvents() )
+		{
+			if( unEvent.id.equals( id ) )
+			{
+				res = unEvent;
+			}
+		}
+		return res;
+	}
 
 }
