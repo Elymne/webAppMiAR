@@ -10,9 +10,10 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import api.Factory;
+import api.LoadDatabase;
 import api.entities.Event;
 
-public class EventFactory implements Factory {
+public class EventFactory implements Factory,LoadDatabase {
 
     @Autowired
     EventRepository eventRepository;
@@ -22,14 +23,13 @@ public class EventFactory implements Factory {
 
     @Override
     public List<Event> getAll() {
-        eventMongoDb.clear();
-        eventMongoDb.insertAll(getFromRepository());
-
         return eventMongoDb.getAll();
     }
-
-    private List<Event> getFromRepository() {
-        return buildEvents(eventRepository.getAll());
+    
+    @Override
+    public void loadDatabase() {
+        eventMongoDb.clear();
+        eventMongoDb.insertAll(buildEvents(eventRepository.getAll()));
     }
 
     private List<Event> buildEvents(JsonNode nodes) {
