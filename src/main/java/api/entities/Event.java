@@ -2,6 +2,7 @@ package api.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonSetter;
 
 @JsonIgnoreProperties( ignoreUnknown = true )
 public class Event
@@ -21,5 +22,13 @@ public class Event
 	public String	imageUrl;
 	public double	locationX;
 	public double	locationY;
+
+	@JsonSetter( "location" )
+	public void parseLocation( String locations )
+	{
+		String[] location = locations.split( "," );
+		this.locationX	= Double.parseDouble( location[ 0 ] );
+		this.locationY	= Double.parseDouble( location[ 1 ] );
+	}
 
 }

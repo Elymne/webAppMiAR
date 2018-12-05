@@ -19,7 +19,7 @@ public class Service
 
 	public List< Event > getAllEvents()
 	{
-		return factory.getAllEvents();
+		return factory.getAll();
 	}
 
 	public void loadAllEvents()
@@ -30,7 +30,7 @@ public class Service
 	public Event getEventById( String id )
 	{
 		Event res = null;
-		for( Event unEvent : factory.getAllEvents() )
+		for( Event unEvent : factory.getAll() )
 		{
 			if( unEvent.tid.equals( id ) )
 			{
