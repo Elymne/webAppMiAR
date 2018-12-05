@@ -81,5 +81,11 @@ public class Service {
         return res;
     }
     
-    
+    public void addNewUser(User user){
+        //TODO
+        /*
+            Nouvelle méthode permettant d'envoyer un utilisateur dans la base de données
+        */
+    }
+
 }
