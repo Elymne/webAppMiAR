@@ -28,7 +28,9 @@ public class EventFactory implements Factory
 		// List< Event > dbEvents = getFromDatabase();
 		// TODO: ici, la logique pour récup les events depuis la db (ou sinon depuis le
 		// repo si y'en a pas)
-		return buildEvents( eventRepository.getAll() );
+		eventMongoDb.insertAll( buildEvents( eventRepository.getAll() ) );
+
+		return eventMongoDb.getEvents();// buildEvents( eventRepository.getAll() );
 	}
 
 	public void putAllEvents()

@@ -3,10 +3,10 @@ package infra;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.bson.Document;
-import org.bson.codecs.Codec;
+import org.bson.codecs.configuration.CodecProvider;
 import org.bson.codecs.configuration.CodecRegistries;
 import org.bson.codecs.configuration.CodecRegistry;
+import org.bson.codecs.pojo.PojoCodecProvider;
 
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientOptions;
@@ -26,11 +26,10 @@ public class MongoDatabaseClient implements Database
 
 	public MongoDatabaseClient()
 	{
-		Codec< Document >	defaultDocumentCodec	= MongoClient.getDefaultCodecRegistry().get( Document.class );
-		EventCodec			eventCodec				= new EventCodec( defaultDocumentCodec );
+		CodecProvider pojoCodecProvider = PojoCodecProvider.builder().register( "api.entities" ).build();
 
 		CodecRegistry codecRegistry = CodecRegistries.fromRegistries( MongoClient.getDefaultCodecRegistry(),
-				CodecRegistries.fromCodecs( eventCodec ) );
+				CodecRegistries.fromProviders( pojoCodecProvider ) );
 
 		MongoClientOptions options = MongoClientOptions.builder().codecRegistry( codecRegistry ).build();
 
@@ -38,7 +37,6 @@ public class MongoDatabaseClient implements Database
 
 		this.root	= this.client.getDatabase( name );
 		this.events	= this.root.getCollection( "events", Event.class );
-
 	}
 
 	@Override

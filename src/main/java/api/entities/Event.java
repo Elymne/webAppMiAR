@@ -6,8 +6,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @JsonIgnoreProperties( ignoreUnknown = true )
 public class Event
 {
-	@JsonProperty( "_id" )
-	public String	id;
+	@JsonProperty( "id" )
+	public String tid;
+
 	public String	nom;
 	public String	description;
 	public String	type;

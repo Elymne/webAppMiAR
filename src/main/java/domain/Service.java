@@ -32,7 +32,7 @@ public class Service
 		Event res = null;
 		for( Event unEvent : factory.getAllEvents() )
 		{
-			if( unEvent.id.equals( id ) )
+			if( unEvent.tid.equals( id ) )
 			{
 				res = unEvent;
 			}
