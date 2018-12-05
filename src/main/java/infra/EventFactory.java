@@ -21,7 +21,7 @@ public class EventFactory implements Factory, LoadBdd {
     @Autowired
     EventRepository eventRepository;
 
-    mongoDb mongoDb = new mongoDb();
+    MongoDb mongoDb = new MongoDb();
 
     @Override
     public List< Event> getAll() {
