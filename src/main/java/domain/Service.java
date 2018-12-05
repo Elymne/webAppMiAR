@@ -5,7 +5,6 @@ import api.LoadBdd;
 import api.entities.Commentary;
 import api.entities.Event;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 

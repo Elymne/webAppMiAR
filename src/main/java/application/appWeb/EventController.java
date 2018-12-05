@@ -3,6 +3,7 @@ package application.appWeb;
 import api.entities.Commentary;
 import api.entities.Event;
 import domain.Service;
+import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,6 +19,7 @@ public class EventController {
     @GetMapping("/")
     @ResponseBody
     public String getHome(List<Event> lesEvents, Model model) {
+        lesEvents = new ArrayList<>();
         lesEvents = service.getAllEvents();
         if (lesEvents != null) {
             model.addAttribute("lesEvents", lesEvents);
@@ -27,10 +29,11 @@ public class EventController {
         return "home";
     }
 
-    @RequestMapping(value = "/test/evenement/{id}")
+    @RequestMapping(value = "/evenement/{id}")
     @ResponseBody
     public String getEvenement(@PathVariable("id") String id, Event unEvent, List<Commentary> lesCommentaires, Model model) {
         unEvent = service.getEventById(id);
+        lesCommentaires = new ArrayList<>();
         lesCommentaires = service.getAllCommentaryById(id);
         if (unEvent != null) {
             model.addAttribute("unEvent", unEvent.nom);
@@ -40,6 +43,9 @@ public class EventController {
         }
         return "evenement";
     }
+    
+    // ---
+    // Methode de test d'appel aux bases de données et aux chargements de celles-ci
 
     @GetMapping("/test/evenement/tous")
     @ResponseBody

@@ -10,21 +10,20 @@ import java.util.List;
 
 public class CommentaryFactory implements Factory {
 
-    mongoDb mongoDb = new mongoDb();
+    MongoDb mongoDb = new MongoDb();
 
     @Override
     public List<Commentary> getAll() {
         DBCollection resFromRepo = mongoDb.getAllCommentary();
-        List<Commentary> res = eventBuild(resFromRepo);
+        List<Commentary> res = commentaryBuild(resFromRepo);
         return res;
     }
 
-    public List<Commentary> eventBuild(DBCollection objectDB) {
+    public List<Commentary> commentaryBuild(DBCollection objectDB) {
         List<Commentary> lesCommentaires = new ArrayList<>();
         DBObject obj;
         Commentary commentaire;
         DBCursor cursor = objectDB.find();
-        double locationX, locationY;
         while (cursor.hasNext()) {
             obj = cursor.next();
             commentaire = new Commentary();
