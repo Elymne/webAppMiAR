@@ -5,18 +5,27 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import api.Factory;
+import api.MongoDbQuery;
 import api.entities.Commentary;
 import infra.database.collection.CommentaryCollection;
 
-public class CommentaryFactory implements Factory< Commentary >
-{
+public class CommentaryFactory implements Factory< Commentary>, MongoDbQuery<Commentary>{
 
-	@Autowired
-	CommentaryCollection commentaryMongoDb;
+    @Autowired
+    CommentaryCollection commentaryMongoDb;
 
-	@Override
-	public List<Commentary> getAll()
-	{
-		return commentaryMongoDb.getAll();
-	}
+    @Override
+    public List<Commentary> getAll() {
+        return commentaryMongoDb.getAll();
+    }
+
+    @Override
+    public void loadDatabase() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void insertValue(Commentary object) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }

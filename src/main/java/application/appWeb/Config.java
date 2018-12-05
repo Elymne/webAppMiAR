@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Configuration;
 
 import api.Database;
 import api.Factory;
+import api.MongoDbQuery;
 import api.entities.Commentary;
 import api.entities.Event;
 import api.entities.User;
@@ -17,6 +18,7 @@ import infra.factory.CommentaryFactory;
 import infra.factory.EventFactory;
 import infra.factory.UserFactory;
 import infra.repository.EventRepository;
+import org.springframework.context.annotation.Primary;
 
 @Configuration
 public class Config {
@@ -32,6 +34,7 @@ public class Config {
     }
 
     @Bean
+    @Primary
     public Factory< Event> getEventFactory() {
         return new EventFactory();
     }
@@ -45,8 +48,14 @@ public class Config {
     public EventRepository getEventRepository() {
         return new EventRepository();
     }
+    
+    @Bean
+    public MongoDbQuery<Event> getEventMongoDbQuery() {
+        return new EventFactory();
+    }
 
     @Bean
+    @Primary
     public Factory< Commentary> getCommentaryFactory() {
         return new CommentaryFactory();
     }
@@ -55,8 +64,14 @@ public class Config {
     public CommentaryCollection getCommentaryCollection() {
         return new CommentaryCollection();
     }
+    
+    @Bean
+    public MongoDbQuery<Commentary> getCommentaryMongoDbQuery() {
+        return new CommentaryFactory();
+    }
 
     @Bean
+    @Primary
     public Factory< User> getUserFactory() {
         return new UserFactory();
     }
@@ -65,5 +80,11 @@ public class Config {
     public UserCollection getUserCollection() {
         return new UserCollection();
     }
+    
+    @Bean
+    public MongoDbQuery<User> getUserMongoDbQuery() {
+        return new UserFactory();
+    }
+    
 
 }

@@ -35,12 +35,14 @@ public class EventController {
 
     @RequestMapping(value = "/evenement/{id}")
     @ResponseBody
+    @CrossOrigin(origins="http://localhost:3000")
     public Event getEventById(@PathVariable("id") String id) {
         return service.getEventById(id);
     }
 
     @RequestMapping(value = "/commentaire/{id}")
     @ResponseBody
+    @CrossOrigin(origins="http://localhost:3000")
     public List<Commentary> getCommentaryById(@PathVariable("id") String id) {
         return service.getAllCommentaryById(id);
     }
