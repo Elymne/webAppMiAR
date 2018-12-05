@@ -7,6 +7,7 @@ import api.Database;
 import api.Factory;
 import domain.Service;
 import infra.EventFactory;
+import infra.EventMongoDatabase;
 import infra.EventRepository;
 import infra.MongoDatabaseClient;
 
@@ -35,7 +36,13 @@ public class Config
 	@Bean
 	public Database getDatabase()
 	{
-		return new MongoDatabaseClient();
+		return MongoDatabaseClient.getInstance();
 	}
+        @Bean
+	public EventMongoDatabase getEventDatabase()
+	{
+		return new EventMongoDatabase();
+	}
+        
 
 }

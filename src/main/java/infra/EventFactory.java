@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import api.Database;
 import api.Factory;
 import api.entities.Event;
 
@@ -19,21 +18,21 @@ public class EventFactory implements Factory {
     EventRepository eventRepository;
 
     @Autowired
-    Database eventMongoDb;
+    EventMongoDatabase eventMongoDb;
 
     @Override
-    public List< Event> getAll() {
+    public List<Event> getAll() {
         eventMongoDb.clear();
         eventMongoDb.insertAll(getFromRepository());
 
-        return eventMongoDb.getEvents();
+        return eventMongoDb.getAll();
     }
 
-    private List< Event> getFromRepository() {
+    private List<Event> getFromRepository() {
         return buildEvents(eventRepository.getAll());
     }
 
-    private List< Event> buildEvents(JsonNode nodes) {
+    private List<Event> buildEvents(JsonNode nodes) {
         ObjectMapper mapper = new ObjectMapper();
         List< Event> list = new ArrayList<>();
 
