@@ -1,4 +1,4 @@
-package infra;
+package infra.repository;
 
 import org.springframework.web.client.RestTemplate;
 

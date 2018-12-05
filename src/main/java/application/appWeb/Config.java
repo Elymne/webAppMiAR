@@ -5,11 +5,13 @@ import org.springframework.context.annotation.Configuration;
 
 import api.Database;
 import api.Factory;
+import api.entities.Event;
 import domain.Service;
-import infra.EventFactory;
-import infra.EventMongoDatabase;
-import infra.EventRepository;
-import infra.MongoDatabaseClient;
+import infra.database.MongoDatabaseClient;
+import infra.database.collection.EventCollection;
+import infra.factory.EventFactory;
+import infra.repository.EventRepository;
+
 
 @Configuration
 public class Config
@@ -22,7 +24,7 @@ public class Config
 	}
 
 	@Bean
-	public Factory getEventFactory()
+	public Factory< Event > getEventFactory()
 	{
 		return new EventFactory();
 	}
@@ -38,11 +40,12 @@ public class Config
 	{
 		return MongoDatabaseClient.getInstance();
 	}
-        @Bean
-	public EventMongoDatabase getEventDatabase()
+
+	@Bean
+	public EventCollection getEventDatabase()
 	{
-		return new EventMongoDatabase();
+		return new EventCollection();
 	}
-        
+
 
 }
