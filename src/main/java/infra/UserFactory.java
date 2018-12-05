@@ -1,5 +1,5 @@
 package infra;
-
+/*
 import api.Factory;
 import api.entities.User;
 import com.mongodb.DBCollection;
@@ -35,3 +35,4 @@ public class UserFactory implements Factory {
     }
     
 }
+*/

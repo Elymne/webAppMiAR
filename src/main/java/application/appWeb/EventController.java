@@ -37,13 +37,6 @@ public class EventController {
         return service.getEventById(id);
     }
 
-    @GetMapping("/evenement/charger")
-    @ResponseBody
-    public String eventLoad() {
-        service.loadAllEvents();
-        return "Chargement des évènements";
-    }
-
     @GetMapping("/greeting")
     public String greeting(Event event, Model model) {
         event = service.getEventById("1");

@@ -1,5 +1,5 @@
 package infra;
-
+/*
 import api.Factory;
 import api.entities.Commentary;
 import com.mongodb.DBCollection;
@@ -37,3 +37,4 @@ public class CommentaryFactory implements Factory {
     }
 
 }
+*/

@@ -20,10 +20,6 @@ public class Service {
         return factory.getAll();
     }
 
-    public void loadAllEvents() {
-        //mongodb.test();
-    }
-
     public Event getEventById(String id) {
         Event res = null;
         for (Event unEvent : factory.getAll()) {
