@@ -1,14 +1,17 @@
 package application.appWeb;
 
-import api.entities.Commentary;
-import api.entities.Event;
-import domain.Service;
-import java.util.ArrayList;
 import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import api.entities.Event;
+import domain.Service;
 
 @Controller
 public class EventController {
@@ -18,42 +21,17 @@ public class EventController {
 
     @GetMapping("/")
     @ResponseBody
-    public String getHome(List<Event> lesEvents, Model model) {
-        lesEvents = new ArrayList<>();
-        lesEvents = service.getAllEvents();
-        if (lesEvents != null) {
-            model.addAttribute("lesEvents", lesEvents);
-        } else {
-            model.addAttribute("lesEvents", "Aucunes événements dans la base de données");
-        }
-        return "home";
+    public String index() {
+        return "Greetings from Spring Boot!";
     }
 
-    @RequestMapping(value = "/evenement/{id}")
+    @GetMapping("/evenement/tous")
     @ResponseBody
-    public String getEvenement(@PathVariable("id") String id, Event unEvent, List<Commentary> lesCommentaires, Model model) {
-        unEvent = service.getEventById(id);
-        lesCommentaires = new ArrayList<>();
-        lesCommentaires = service.getAllCommentaryById(id);
-        if (unEvent != null) {
-            model.addAttribute("unEvent", unEvent.nom);
-            model.addAttribute("lesCommentaires", lesCommentaires);
-        } else {
-            model.addAttribute("unEvent", "Selection d'un événement innexistant");
-        }
-        return "evenement";
-    }
-    
-    // ---
-    // Methode de test d'appel aux bases de données et aux chargements de celles-ci
-
-    @GetMapping("/test/evenement/tous")
-    @ResponseBody
-    public List<Event> getAllEvents() {
+    public List< Event> getAllEvents() {
         return service.getAllEvents();
     }
 
-    @RequestMapping(value = "/test/evenement/{id}")
+    @RequestMapping(value = "/evenement/{id}")
     @ResponseBody
     public Event getEventById(@PathVariable("id") String id) {
         return service.getEventById(id);
@@ -62,7 +40,19 @@ public class EventController {
     @GetMapping("/evenement/charger")
     @ResponseBody
     public String eventLoad() {
-        service.loadAllEvent();
+        service.loadAllEvents();
         return "Chargement des évènements";
     }
+
+    @GetMapping("/greeting")
+    public String greeting(Event event, Model model) {
+        event = service.getEventById("1");
+        if (event != null) {
+            model.addAttribute("event", event.nom);
+        } else {
+            model.addAttribute("event", "ERREUR");
+        }
+        return "greeting";
+    }
+
 }

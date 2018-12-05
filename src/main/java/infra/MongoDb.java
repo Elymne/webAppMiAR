@@ -17,24 +17,23 @@ public class MongoDb {
         MongoClient mongoClient = new MongoClient(new MongoClientURI("mongodb://localhost:27017"));
         return mongoClient.getDB("appWeb").getCollection("event");
     }
-    
+
     public DBCollection getAllUser() {
         MongoClient mongoClient = new MongoClient(new MongoClientURI("mongodb://localhost:27017"));
         return mongoClient.getDB("appWeb").getCollection("user");
     }
-    
+
     public DBCollection getAllCommentary() {
         MongoClient mongoClient = new MongoClient(new MongoClientURI("mongodb://localhost:27017"));
         return mongoClient.getDB("appWeb").getCollection("commentary");
     }
-
+    /*
     public void loadEvent(List< Event> lesEvents) {
         List<Object> attribut = new ArrayList<>();
         DBObject event;
         MongoClient mongoClient = new MongoClient();
         DBCollection collection = mongoClient.getDB("appWeb").getCollection("event");
         collection.remove(new BasicDBObject());
-        
 
         for (Event unEvent : lesEvents) {
             attribut = verificationEvent(unEvent);
@@ -55,7 +54,8 @@ public class MongoDb {
             collection.insert(event);
         }
     }
-    
+*/
+
     private List<Object> verificationEvent(Event unEvent) {
         String heureDebut, heureFin, siteWeb, imageUrl, lieu;
         List<Object> res = new ArrayList<>();
@@ -86,7 +86,7 @@ public class MongoDb {
         if (unEvent.lieu == null) {
             lieu = "";
         } else {
-            lieu = unEvent.lieu ;
+            lieu = unEvent.lieu;
         }
         res.add(lieu);
 
