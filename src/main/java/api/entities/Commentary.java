@@ -1,10 +1,15 @@
 package api.entities;
 
-public class Commentary {
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
-    public String id;
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class Commentary {
+    
+    @JsonProperty("id")
+    public String tid;
+
     public String auteur;
     public String message;
     public String idref;
-
 }

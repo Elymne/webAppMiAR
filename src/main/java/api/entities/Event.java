@@ -2,13 +2,14 @@ package api.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonSetter;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Event {
 
     @JsonProperty("id")
     public String tid;
-    
+
     public String recordid;
     public String nom;
     public String description;
@@ -24,10 +25,11 @@ public class Event {
     public double locationX;
     public double locationY;
 
-    public void setRealLocation() {
-        String resLocation[] = location.split(",");
-        this.locationX = (Double.parseDouble(resLocation[0]));
-        this.locationY = (Double.parseDouble(resLocation[1]));
+    @JsonSetter("location")
+    public void parseLocation(String locations) {
+        String[] location = locations.split(",");
+        this.locationX = Double.parseDouble(location[0]);
+        this.locationY = Double.parseDouble(location[1]);
     }
 
 }

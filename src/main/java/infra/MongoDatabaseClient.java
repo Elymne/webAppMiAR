@@ -54,11 +54,6 @@ public class MongoDatabaseClient implements Database {
     }
 
     @Override
-    public Event getEventById(int id) {
-        return null;
-    }
-
-    @Override
     public List< Event> getEvents() {
         List< Event> lesEvents = new ArrayList<>();
 

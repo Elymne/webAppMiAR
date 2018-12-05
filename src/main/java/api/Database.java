@@ -17,7 +17,5 @@ public interface Database {
 
     public void insertAll(List< Event> events);
 
-    public Event getEventById(int id);
-
     public List< Event> getEvents();
 }
