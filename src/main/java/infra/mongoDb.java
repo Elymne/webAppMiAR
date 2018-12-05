@@ -18,6 +18,11 @@ public class mongoDb {
         return mongoClient.getDB("appWeb").getCollection("event");
     }
     
+    public DBCollection getAllUser() {
+        MongoClient mongoClient = new MongoClient(new MongoClientURI("mongodb://localhost:27017"));
+        return mongoClient.getDB("appWeb").getCollection("user");
+    }
+    
     public DBCollection getAllCommentary() {
         MongoClient mongoClient = new MongoClient(new MongoClientURI("mongodb://localhost:27017"));
         return mongoClient.getDB("appWeb").getCollection("commentary");

@@ -10,7 +10,7 @@ import java.util.List;
 
 public class CommentaryFactory implements Factory {
 
-    MongoDb mongoDb = new MongoDb();
+    mongoDb mongoDb = new mongoDb();
 
     @Override
     public List<Commentary> getAll() {
