@@ -10,12 +10,12 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import api.Factory;
-import api.LoadDatabase;
+import api.MongoDbQuery;
 import api.entities.Event;
 import infra.database.collection.EventCollection;
 import infra.repository.EventRepository;
 
-public class EventFactory implements Factory< Event>, LoadDatabase {
+public class EventFactory implements Factory<Event>, MongoDbQuery<Event> {
 
     @Autowired
     EventRepository eventRepository;
@@ -54,6 +54,11 @@ public class EventFactory implements Factory< Event>, LoadDatabase {
         }
 
         return list;
+    }
+
+    @Override
+    public void insertValue(Event event) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }

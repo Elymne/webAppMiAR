@@ -12,7 +12,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import api.entities.Event;
+import api.entities.User;
 import domain.Service;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class EventController {
@@ -37,7 +40,7 @@ public class EventController {
     public Event getEventById(@PathVariable("id") String id) {
         return service.getEventById(id);
     }
-    
+
     @RequestMapping(value = "/commentaire/{id}")
     @ResponseBody
     public List<Commentary> getCommentaryById(@PathVariable("id") String id) {
@@ -53,6 +56,21 @@ public class EventController {
             model.addAttribute("event", "ERREUR");
         }
         return "greeting";
+    }
+
+    @RequestMapping(value = "/inscription", method = RequestMethod.POST)
+    public boolean recoverPass(@RequestParam("user") User user) {
+        boolean res = service.isValidAccountName(user.accountName);
+        if(res)
+            service.addNewUser(user);
+        return res;
+    }
+    
+    @GetMapping("/evenement/charger")
+    @ResponseBody
+    public String charger() {
+        service.charge();
+        return "Chargement événement, ceci ne sert que pour le tests, c'est rapide et pratique";
     }
 
 }
