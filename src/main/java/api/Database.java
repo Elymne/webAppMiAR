@@ -21,5 +21,4 @@ public interface Database
 
 	public List< Event > getEvents();
 
-	public void test();
 }

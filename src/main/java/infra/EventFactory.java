@@ -20,20 +20,42 @@ public class EventFactory implements Factory
 	EventRepository eventRepository;
 
 	@Autowired
-	Database eventMongoDb;
+	Database database;
 
 	@Override
 	public List< Event > getAll()
 	{
-		eventMongoDb.insertAll( buildEvents( eventRepository.getAll() ) );
+		// Si on a déjà des events dans la database, on les envoies
+		/*
+		 * List< Event > events = getFromDatabase();
+		 * 
+		 * if( events.size() > 0 ) return events;
+		 * 
+		 * // Sinon récup depuis le repo return getFromRepository();
+		 */
+		database.clear();
+		database.insertAll( getFromRepository() );
 
-		return eventMongoDb.getEvents();// buildEvents( eventRepository.getAll() );
+		return database.getEvents();
 	}
 
-	public void putAllEvents()
+
+	private List< Event > getFromRepository()
 	{
-		JsonNode nodes = eventRepository.getAll();
-		// eventMongoDb.loadEvent( resFromRepo );
+		return buildEvents( eventRepository.getAll() );
+	}
+
+	private List< Event > getFromDatabase()
+	{
+		return database.getEvents();
+	}
+
+
+	// Devrait être dans une autre classe
+	// TODO
+	private boolean shouldDatabaseBeUpdated()
+	{
+		return false;
 	}
 
 	private List< Event > buildEvents( JsonNode nodes )
@@ -44,7 +66,12 @@ public class EventFactory implements Factory
 		try
 		{
 			for( JsonNode node : nodes )
-				list.add( mapper.readValue( node.findValue( "fields" ).toString(), Event.class ) );
+			{
+				Event event = mapper.readValue( node.findValue( "fields" ).toString(), Event.class );
+				event.record_id = node.get( "recordid" ).textValue();
+
+				list.add( event );
+			}
 		}
 		catch( IOException e )
 		{
@@ -53,12 +80,4 @@ public class EventFactory implements Factory
 
 		return list;
 	}
-
-	private List< Event > getFromDatabase()
-	{
-		return null;
-	}
-
-
-
 }

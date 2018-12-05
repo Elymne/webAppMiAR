@@ -1,25 +1,23 @@
 package api.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSetter;
 
 @JsonIgnoreProperties( ignoreUnknown = true )
 public class Event
 {
-	@JsonProperty( "id" )
-	public String tid;
+	public String record_id;
 
 	public String	nom;
 	public String	description;
 	public String	type;
 	public String	date;
-	public String	heureDeb;
-	public String	heureFin;
-	public String	nomLieu;
+	public String	heure_debut;
+	public String	heure_fin;
+	public String	lieu;
 	public String	adresse;
-	public String	siteWeb;
-	public String	imageUrl;
+	public String	site_web;
+	public String	image_url;
 	public double	locationX;
 	public double	locationY;
 

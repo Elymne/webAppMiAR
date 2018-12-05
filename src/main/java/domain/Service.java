@@ -24,7 +24,7 @@ public class Service
 
 	public void loadAllEvents()
 	{
-		mongodb.test();
+		// mongodb.test();
 	}
 
 	public Event getEventById( String id )
@@ -32,7 +32,7 @@ public class Service
 		Event res = null;
 		for( Event unEvent : factory.getAll() )
 		{
-			if( unEvent.tid.equals( id ) )
+			if( unEvent.record_id.equals( id ) )
 			{
 				res = unEvent;
 			}

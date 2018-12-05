@@ -40,27 +40,6 @@ public class MongoDatabaseClient implements Database
 	}
 
 	@Override
-	public void test()
-	{
-		clear();
-
-		Event event = new Event();
-		event.nom = "yo";
-
-		this.insert( event );
-
-		Event event2 = new Event();
-		event2.nom = "yo2";
-
-		this.insert( event2 );
-
-		List< Event > list = getEvents();
-
-		for( Event e : list )
-			System.out.println( e.nom );
-	}
-
-	@Override
 	public void clear()
 	{
 		this.events.drop();
