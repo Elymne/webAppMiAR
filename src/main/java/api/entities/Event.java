@@ -8,7 +8,8 @@ public class Event {
 
     @JsonProperty("id")
     public String tid;
-
+    
+    public String recordid;
     public String nom;
     public String description;
     public String type;

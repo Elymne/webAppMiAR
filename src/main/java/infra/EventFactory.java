@@ -33,7 +33,10 @@ public class EventFactory implements Factory {
 
         try {
             for (JsonNode node : nodes) {
-                list.add(mapper.readValue(node.findValue("fields").toString(), Event.class));
+                Event event = mapper.readValue(node.findValue("fields").toString(), Event.class);
+                event.recordid = node.get("recordid").textValue();
+
+                list.add(event);
             }
         } catch (IOException e) {
             e.printStackTrace();
