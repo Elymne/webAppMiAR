@@ -1,4 +1,4 @@
-package infra;
+package infra.factory;
 /*
 import api.Factory;
 import api.entities.User;
