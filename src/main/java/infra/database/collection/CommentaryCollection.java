@@ -9,42 +9,37 @@ import api.DatabaseCollection;
 import api.entities.Commentary;
 import infra.database.MongoDatabaseClient;
 
-public class CommentaryCollection implements DatabaseCollection< Commentary >
-{
-	MongoDatabaseClient mongoDatabaseClient = MongoDatabaseClient.getInstance();
+public class CommentaryCollection implements DatabaseCollection< Commentary> {
 
-	private MongoCollection< Commentary > lesCommentaires = mongoDatabaseClient.getRoot().getCollection( "commentary",
-			Commentary.class );
+    MongoDatabaseClient mongoDatabaseClient = MongoDatabaseClient.getInstance();
 
-	@Override
-	public void clear()
-	{
-		this.lesCommentaires.drop();
-	}
+    private MongoCollection< Commentary> commentaryList = mongoDatabaseClient.getRoot().getCollection("commentary",
+            Commentary.class);
 
-	@Override
-	public void insert( Commentary commentary )
-	{
-		this.lesCommentaires.insertOne( commentary );
-	}
+    @Override
+    public void clear() {
+        this.commentaryList.drop();
+    }
 
-	@Override
-	public void insertAll( List< Commentary > listCommentary )
-	{
-		this.lesCommentaires.insertMany( listCommentary );
-	}
+    @Override
+    public void insert(Commentary commentary) {
+        this.commentaryList.insertOne(commentary);
+    }
 
-	@Override
-	public List< Commentary > getAll()
-	{
-		List< Commentary > lesCommentaires = new ArrayList<>();
+    @Override
+    public void insertAll(List< Commentary> commentaryList) {
+        this.commentaryList.insertMany(commentaryList);
+    }
 
-		for( Commentary unCommentaire : this.lesCommentaires.find( Commentary.class ) )
-		{
-			lesCommentaires.add( unCommentaire );
-		}
+    @Override
+    public List< Commentary> getAll() {
+        List< Commentary> res = new ArrayList<>();
 
-		return lesCommentaires;
-	}
+        for (Commentary commentary : this.commentaryList.find(Commentary.class)) {
+            res.add(commentary);
+        }
+
+        return res;
+    }
 
 }

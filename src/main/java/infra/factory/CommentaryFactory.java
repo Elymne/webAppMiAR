@@ -15,7 +15,7 @@ public class CommentaryFactory implements Factory< Commentary >
 	CommentaryCollection commentaryMongoDb;
 
 	@Override
-	public List< Commentary > getAll()
+	public List<Commentary> getAll()
 	{
 		return commentaryMongoDb.getAll();
 	}

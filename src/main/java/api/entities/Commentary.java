@@ -9,7 +9,7 @@ public class Commentary {
     @JsonProperty("id")
     public String tid;
 
-    public String auteur;
+    public String author;
     public String message;
     public String idref;
 }

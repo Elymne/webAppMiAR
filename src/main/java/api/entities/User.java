@@ -9,7 +9,7 @@ public class User {
     @JsonProperty("id")
     public String tid;
     
-    public String nomCompte;
+    public String accountName;
     public String password;
 
 }

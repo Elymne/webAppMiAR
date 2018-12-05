@@ -13,37 +13,37 @@ public class EventCollection implements DatabaseCollection< Event >
 {
 	MongoDatabaseClient mongoDatabaseClient = MongoDatabaseClient.getInstance();
 
-	private MongoCollection< Event > lesEvents = mongoDatabaseClient.getRoot().getCollection( "event", Event.class );
+	private MongoCollection< Event > eventList = mongoDatabaseClient.getRoot().getCollection( "event", Event.class );
 
 	@Override
 	public void clear()
 	{
-		this.lesEvents.drop();
+		this.eventList.drop();
 	}
 
 	@Override
 	public void insert( Event event )
 	{
-		this.lesEvents.insertOne( event );
+		this.eventList.insertOne( event );
 	}
 
 	@Override
 	public void insertAll( List< Event > listEvent )
 	{
-		this.lesEvents.insertMany( listEvent );
+		this.eventList.insertMany( listEvent );
 	}
 
 	@Override
 	public List< Event > getAll()
 	{
-		List< Event > lesEvents = new ArrayList<>();
+		List< Event > res = new ArrayList<>();
 
-		for( Event unEvent : this.lesEvents.find( Event.class ) )
+		for( Event event : this.eventList.find( Event.class ) )
 		{
-			lesEvents.add( unEvent );
+			res.add( event );
 		}
 
-		return lesEvents;
+		return res;
 	}
 
 }

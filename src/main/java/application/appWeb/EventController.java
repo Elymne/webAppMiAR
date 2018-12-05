@@ -1,5 +1,6 @@
 package application.appWeb;
 
+import api.entities.Commentary;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +36,12 @@ public class EventController {
     @ResponseBody
     public Event getEventById(@PathVariable("id") String id) {
         return service.getEventById(id);
+    }
+    
+    @RequestMapping(value = "/commentaire/{id}")
+    @ResponseBody
+    public List<Commentary> getCommentaryById(@PathVariable("id") String id) {
+        return service.getAllCommentaryById(id);
     }
 
     @GetMapping("/greeting")
