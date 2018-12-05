@@ -23,8 +23,14 @@ public class EventFactory implements Factory {
 
     @Override
     public List< Event> getAll() {
-        eventMongoDb.insertAll(buildEvents(eventRepository.getAll()));
+        eventMongoDb.clear();
+        eventMongoDb.insertAll(getFromRepository());
+
         return eventMongoDb.getEvents();
+    }
+
+    private List< Event> getFromRepository() {
+        return buildEvents(eventRepository.getAll());
     }
 
     private List< Event> buildEvents(JsonNode nodes) {
@@ -43,9 +49,5 @@ public class EventFactory implements Factory {
         }
 
         return list;
-    }
-
-    private List< Event> getFromDatabase() {
-        return null;
     }
 }
