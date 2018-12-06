@@ -15,5 +15,4 @@ public class ParkingRepository implements Repository
 				.getForObject( basePath + "244400404_parkings-publics-nantes&rows=100", JsonNode.class )
 				.get( "records" );
 	}
-
 }
