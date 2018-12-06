@@ -2,12 +2,9 @@ package application.appWeb;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Map;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.json.JsonParser;
-import org.springframework.boot.json.JsonParserFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -74,16 +71,10 @@ public class EventController {
     @CrossOrigin(origins = "http://localhost:3000")
     public String recoverPass(@RequestBody String payload) throws IOException {
         System.out.println(payload);
-        ObjectMapper mapper =  new ObjectMapper();
-        User newUser = mapper.readValue(payload, User.class);
-        System.out.println(newUser.login);
-        
-        //service.isValidAccountName(user.accountName);
-        /*
-        if (res) {
-            service.addNewUser(user);
-        }
-         */
+        ObjectMapper mapper = new ObjectMapper();
+        User user = mapper.readValue(payload, User.class);
+        if(service.isValidAccountName(user.login))
+            service.addNewUser(user); 
         return "hello from back!";
     }
 

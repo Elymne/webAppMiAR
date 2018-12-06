@@ -27,119 +27,91 @@ import infra.repository.EventRepository;
 import infra.repository.ParkingRepository;
 
 @Configuration
-public class Config implements WebMvcConfigurer
-{
-	@Override
-	public void addFormatters( FormatterRegistry registry )
-	{
-		registry.addConverter( new User() );
-	}
+public class Config {
 
+    // Service
+    @Bean
+    public Service getService() {
+        return new Service();
+    }
 
-	// Service
-	@Bean
-	public Service getService()
-	{
-		return new Service();
-	}
+    // Database
+    @Bean
+    public Database getDatabase() {
+        return MongoDatabaseClient.getInstance();
+    }
 
+    // Factories
+    @Bean
+    @Primary
+    public Factory< Event> getEventFactory() {
+        return new EventFactory();
+    }
 
-	// Database
-	@Bean
-	public Database getDatabase()
-	{
-		return MongoDatabaseClient.getInstance();
-	}
+    @Bean
+    @Primary
+    public Factory< Commentary> getCommentaryFactory() {
+        return new CommentaryFactory();
+    }
 
+    @Bean
+    @Primary
+    public Factory< User> getUserFactory() {
+        return new UserFactory();
+    }
 
-	// Factories
-	@Bean
-	@Primary
-	public Factory< Event > getEventFactory()
-	{
-		return new EventFactory();
-	}
+    @Bean
+    @Primary
+    public Factory< Parking> getParkingFactory() {
+        return new ParkingFactory();
+    }
 
-	@Bean
-	@Primary
-	public Factory< Commentary > getCommentaryFactory()
-	{
-		return new CommentaryFactory();
-	}
+    // Repositories
+    @Bean
+    public EventRepository getEventRepository() {
+        return new EventRepository();
+    }
 
-	@Bean
-	@Primary
-	public Factory< User > getUserFactory()
-	{
-		return new UserFactory();
-	}
+    @Bean
+    public ParkingRepository getParkingRepository() {
+        return new ParkingRepository();
+    }
 
-	@Bean
-	@Primary
-	public Factory< Parking > getParkingFactory()
-	{
-		return new ParkingFactory();
-	}
+    // Collections
+    @Bean
+    public EventCollection getEventCollection() {
+        return new EventCollection();
+    }
 
+    @Bean
+    public ParkingCollection getParkingCollection() {
+        return new ParkingCollection();
+    }
 
-	// Repositories
-	@Bean
-	public EventRepository getEventRepository()
-	{
-		return new EventRepository();
-	}
+    @Bean
+    public CommentaryCollection getCommentaryCollection() {
+        return new CommentaryCollection();
+    }
 
-	@Bean
-	public ParkingRepository getParkingRepository()
-	{
-		return new ParkingRepository();
-	}
+    @Bean
+    public UserCollection getUserCollection() {
+        return new UserCollection();
+    }
 
+    // Queries
+    @Bean
+    public MongoDbQuery< Event> getEventMongoDbQuery() {
+        return new EventFactory();
+    }
 
-	// Collections
-	@Bean
-	public EventCollection getEventCollection()
-	{
-		return new EventCollection();
-	}
+    @Bean
+    public MongoDbQuery< Commentary> getCommentaryMongoDbQuery() {
+        return new CommentaryFactory();
+    }
 
-	@Bean
-	public ParkingCollection getParkingCollection()
-	{
-		return new ParkingCollection();
-	}
-
-	@Bean
-	public CommentaryCollection getCommentaryCollection()
-	{
-		return new CommentaryCollection();
-	}
-
-	@Bean
-	public UserCollection getUserCollection()
-	{
-		return new UserCollection();
-	}
-
-
-	// Queries
-	@Bean
-	public MongoDbQuery< Event > getEventMongoDbQuery()
-	{
-		return new EventFactory();
-	}
-
-	@Bean
-	public MongoDbQuery< Commentary > getCommentaryMongoDbQuery()
-	{
-		return new CommentaryFactory();
-	}
-
-	@Bean
-	public MongoDbQuery< User > getUserMongoDbQuery()
-	{
-		return new UserFactory();
-	}
-
+    @Bean
+    public MongoDbQuery< User> getUserMongoDbQuery() {
+        return new UserFactory();
+    }
 
 }
