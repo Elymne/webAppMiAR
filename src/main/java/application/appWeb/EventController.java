@@ -77,7 +77,7 @@ public class EventController {
         return "hello from back!";
     }
     
-    @RequestMapping(value = "/inscription", method = RequestMethod.POST, consumes = "text/plain")
+    @RequestMapping(value = "/connexion", method = RequestMethod.POST, consumes = "text/plain")
     @ResponseBody
     @CrossOrigin(origins = "http://localhost:3000")
     public String connexion(@RequestBody String payload) throws IOException {
