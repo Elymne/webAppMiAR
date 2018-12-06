@@ -3,9 +3,16 @@ package application.appWeb;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import api.entities.Commentary;
 import api.entities.Event;
@@ -75,12 +82,13 @@ public class EventController
 	}
 
 	@RequestMapping( value = "/inscription", method = RequestMethod.POST )
-	public boolean recoverPass( @RequestParam User user )
+	@CrossOrigin( origins = "http://localhost:3000" )
+	public ResponseEntity< Boolean > recoverPass( @RequestParam User user )
 	{
-		boolean res = service.isValidAccountName( user.accountName );
-		if( res )
-			service.addNewUser( user );
-		return res;
+//		boolean res = service.isValidAccountName( user.accountName );
+//		if( res )
+//			service.addNewUser( user );
+		return ResponseEntity.ok( false );
 	}
 
 	@GetMapping( "/evenement/charger" )
