@@ -29,5 +29,4 @@ public class Event
 		this.locationX	= Double.parseDouble( location[ 0 ] );
 		this.locationY	= Double.parseDouble( location[ 1 ] );
 	}
-
 }

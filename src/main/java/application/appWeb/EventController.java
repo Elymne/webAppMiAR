@@ -81,7 +81,7 @@ public class EventController
 	}
 
 	@RequestMapping( value = "/inscription", method = RequestMethod.POST )
-	public boolean recoverPass( @RequestParam( "user" ) User user )
+	public boolean recoverPass( @RequestParam User user )
 	{
 		boolean res = service.isValidAccountName( user.accountName );
 		if( res )
