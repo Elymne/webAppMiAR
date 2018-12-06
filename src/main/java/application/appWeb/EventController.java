@@ -5,13 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import api.entities.Commentary;
 import api.entities.Event;
@@ -70,17 +64,19 @@ public class EventController {
         return "greeting";
     }
 
-    @RequestMapping(value = "/inscription", method = RequestMethod.POST)
-    public boolean recoverPass(@RequestParam("user") String user) {
-        boolean res = false;
+    @RequestMapping(value = "/inscription", method = RequestMethod.POST, consumes = "text/plain")
+    @ResponseBody
+    @CrossOrigin(origins = "http://localhost:3000")
+    public String recoverPass(@RequestBody String payload) {
+        System.out.println(payload);
+        
         //service.isValidAccountName(user.accountName);
         /*
         if (res) {
             service.addNewUser(user);
         }
          */
-        System.err.println(user);
-        return res;
+        return "hello from back!";
     }
 
     @GetMapping("/evenement/charger")
