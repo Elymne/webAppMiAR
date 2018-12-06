@@ -20,81 +20,74 @@ import api.entities.User;
 import domain.Service;
 
 @Controller
-public class EventController
-{
+public class EventController {
 
-	@Autowired
-	Service service;
+    @Autowired
+    Service service;
 
-	@GetMapping( "/" )
-	@ResponseBody
-	public String index()
-	{
-		return "Greetings from Spring Boot!";
-	}
+    @GetMapping("/")
+    @ResponseBody
+    public String index() {
+        return "Greetings from Spring Boot!";
+    }
 
-	@GetMapping( "/evenement/tous" )
-	@ResponseBody
-	@CrossOrigin( origins = "http://localhost:3000" )
-	public List< Event > getAllEvents()
-	{
-		return service.getAllEvents();
-	}
+    @GetMapping("/evenement/tous")
+    @ResponseBody
+    @CrossOrigin(origins = "http://localhost:3000")
+    public List< Event> getAllEvents() {
+        return service.getAllEvents();
+    }
 
-	@RequestMapping( value = "/evenement/{id}" )
-	@ResponseBody
-	@CrossOrigin( origins = "http://localhost:3000" )
-	public Event getEventById( @PathVariable( "id" ) String id )
-	{
-		return service.getEventById( id );
-	}
+    @RequestMapping(value = "/evenement/{id}")
+    @ResponseBody
+    @CrossOrigin(origins = "http://localhost:3000")
+    public Event getEventById(@PathVariable("id") String id) {
+        return service.getEventById(id);
+    }
 
-	@RequestMapping( value = "/commentaire/{id}" )
-	@ResponseBody
-	@CrossOrigin( origins = "http://localhost:3000" )
-	public List< Commentary > getCommentaryById( @PathVariable( "id" ) String id )
-	{
-		return service.getAllCommentaryById( id );
-	}
+    @RequestMapping(value = "/commentaire/{id}")
+    @ResponseBody
+    @CrossOrigin(origins = "http://localhost:3000")
+    public List< Commentary> getCommentaryById(@PathVariable("id") String id) {
+        return service.getAllCommentaryById(id);
+    }
 
-	@GetMapping( "/parkings" )
-	@ResponseBody
-	@CrossOrigin( origins = "http://localhost:3000" )
-	public List< Parking > getAllParkings()
-	{
-		return service.getAllParkings();
-	}
+    @GetMapping("/parkings")
+    @ResponseBody
+    @CrossOrigin(origins = "http://localhost:3000")
+    public List< Parking> getAllParkings() {
+        return service.getAllParkings();
+    }
 
-	@GetMapping( "/greeting" )
-	public String greeting( Event event, Model model )
-	{
-		event = service.getEventById( "1" );
-		if( event != null )
-		{
-			model.addAttribute( "event", event.nom );
-		}
-		else
-		{
-			model.addAttribute( "event", "ERREUR" );
-		}
-		return "greeting";
-	}
+    @GetMapping("/greeting")
+    public String greeting(Event event, Model model) {
+        event = service.getEventById("1");
+        if (event != null) {
+            model.addAttribute("event", event.nom);
+        } else {
+            model.addAttribute("event", "ERREUR");
+        }
+        return "greeting";
+    }
 
-	@RequestMapping( value = "/inscription", method = RequestMethod.POST )
-	public boolean recoverPass( @RequestParam( "user" ) User user )
-	{
-		boolean res = service.isValidAccountName( user.accountName );
-		if( res )
-			service.addNewUser( user );
-		return res;
-	}
+    @RequestMapping(value = "/inscription", method = RequestMethod.POST)
+    public boolean recoverPass(@RequestParam("user") String user) {
+        boolean res = false;
+        //service.isValidAccountName(user.accountName);
+        /*
+        if (res) {
+            service.addNewUser(user);
+        }
+         */
+        System.err.println(user);
+        return res;
+    }
 
-	@GetMapping( "/evenement/charger" )
-	@ResponseBody
-	public String charger()
-	{
-		service.charge();
-		return "Chargement événement, ceci ne sert que pour le tests, c'est rapide et pratique";
-	}
+    @GetMapping("/evenement/charger")
+    @ResponseBody
+    public String charger() {
+        service.charge();
+        return "Chargement événement, ceci ne sert que pour le tests, c'est rapide et pratique";
+    }
 
 }
