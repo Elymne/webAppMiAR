@@ -70,7 +70,7 @@ public class Service {
     public boolean isValidAuthentification(String accountName, String password) {
         boolean res = true;
         for (User user : userFactory.getAll()) {
-            if (user.accountName.equals(accountName)) {
+            if (user.login.equals(accountName)) {
                 if (!user.password.equals(user)) {
                     res = false;
                 }
@@ -82,7 +82,7 @@ public class Service {
     public boolean isValidAccountName(String accountName) {
         boolean res = true;
         for (User user : userFactory.getAll()) {
-            if (user.accountName.equals(accountName)) {
+            if (user.login.equals(accountName)) {
                 res = false;
             }
         }
