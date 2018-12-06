@@ -9,8 +9,6 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import api.entities.Commentary;
@@ -18,6 +16,13 @@ import api.entities.Event;
 import api.entities.Parking;
 import api.entities.User;
 import domain.Service;
+import static java.lang.Math.log;
+import java.net.URISyntaxException;
+import javax.validation.Valid;
+import org.springframework.context.annotation.DeferredImportSelector.Group;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 @Controller
 public class EventController {
@@ -69,17 +74,12 @@ public class EventController {
         }
         return "greeting";
     }
-
-    @RequestMapping(value = "/inscription", method = RequestMethod.POST)
-    public boolean recoverPass(@RequestParam("user") String user) {
-        boolean res = false;
-        //service.isValidAccountName(user.accountName);
-        /*
-        if (res) {
-            service.addNewUser(user);
-        }
-         */
-        System.err.println(user);
+    
+    @PostMapping("/user")
+    public String connexion(@Valid @RequestBody User user) throws URISyntaxException {
+        String res = "OK";
+        
+        System.out.println(user.accountName);
         return res;
     }
 
