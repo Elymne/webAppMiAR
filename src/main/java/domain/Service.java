@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import api.Database;
 import api.Factory;
 import api.MongoDbQuery;
 import api.entities.Commentary;
@@ -32,9 +31,6 @@ public class Service {
 
     @Autowired
     MongoDbQuery< User> userQuery;
-
-    @Autowired
-    Database mongodb;
 
     public List< Event> getAllEvents() {
         if (eventFactory.getAll().isEmpty()) {

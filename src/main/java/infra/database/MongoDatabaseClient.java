@@ -10,42 +10,58 @@ import com.mongodb.MongoClientOptions;
 import com.mongodb.ServerAddress;
 import com.mongodb.client.MongoDatabase;
 
-import api.Database;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-public class MongoDatabaseClient implements Database
-{
+public class MongoDatabaseClient {
 
-	private MongoClient		client;
-	private MongoDatabase	root;
+    private MongoClient client;
+    private MongoDatabase root;
 
-	private MongoDatabaseClient()
-	{
-		CodecProvider pojoCodecProvider = PojoCodecProvider.builder().register( "api.entities" ).build();
+    private MongoDatabaseClient() {
 
-		CodecRegistry codecRegistry = CodecRegistries.fromRegistries( MongoClient.getDefaultCodecRegistry(),
-				CodecRegistries.fromProviders( pojoCodecProvider ) );
+        final Properties prop = new Properties();
+        InputStream input = null;
 
-		MongoClientOptions options = MongoClientOptions.builder().codecRegistry( codecRegistry ).build();
+        CodecProvider pojoCodecProvider = PojoCodecProvider.builder().register("api.entities").build();
 
-		this.client	= new MongoClient( new ServerAddress( host, port ), options );
-		this.root	= this.client.getDatabase( name );
-	}
+        CodecRegistry codecRegistry = CodecRegistries.fromRegistries(MongoClient.getDefaultCodecRegistry(),
+                CodecRegistries.fromProviders(pojoCodecProvider));
 
-	private static MongoDatabaseClient INSTANCE = new MongoDatabaseClient();
+        MongoClientOptions options = MongoClientOptions.builder().codecRegistry(codecRegistry).build();
 
-	public static MongoDatabaseClient getInstance()
-	{
-		return INSTANCE;
-	}
+        try {
+            input = new FileInputStream("src/main/resources/application.properties");
+            prop.load(input);
 
-	public MongoClient getClient()
-	{
-		return client;
-	}
+            this.client = new MongoClient(new ServerAddress(prop.getProperty("database.host"), Integer.valueOf(prop.getProperty("database.port"))), options);
+            this.root = this.client.getDatabase(prop.getProperty("database.name"));
 
-	public MongoDatabase getRoot()
-	{
-		return root;
-	}
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(MongoDatabaseClient.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(MongoDatabaseClient.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+
+    private static MongoDatabaseClient INSTANCE = new MongoDatabaseClient();
+
+    public static MongoDatabaseClient getInstance() {
+        return INSTANCE;
+    }
+
+    public MongoClient getClient() {
+        return client;
+    }
+
+    public MongoDatabase getRoot() {
+        return root;
+    }
 
 }

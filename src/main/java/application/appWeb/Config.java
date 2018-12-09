@@ -4,7 +4,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 
-import api.Database;
 import api.Factory;
 import api.MongoDbQuery;
 import api.entities.Commentary;
@@ -12,7 +11,6 @@ import api.entities.Event;
 import api.entities.Parking;
 import api.entities.User;
 import domain.Service;
-import infra.database.MongoDatabaseClient;
 import infra.database.collection.CommentaryCollection;
 import infra.database.collection.EventCollection;
 import infra.database.collection.ParkingCollection;
@@ -31,12 +29,6 @@ public class Config {
     @Bean
     public Service getService() {
         return new Service();
-    }
-
-    // Database
-    @Bean
-    public Database getDatabase() {
-        return MongoDatabaseClient.getInstance();
     }
 
     // Factories
