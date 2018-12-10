@@ -4,13 +4,11 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import api.Factory;
 import api.MongoDbQuery;
 import api.entities.Commentary;
-import api.entities.Parking;
 import infra.database.collection.CommentaryCollection;
 
-public class CommentaryFactory implements Factory<Commentary>, MongoDbQuery<Commentary>{
+public class CommentaryFactory implements MongoDbQuery<Commentary>{
 
     @Autowired
     CommentaryCollection commentaryMongoDb;
@@ -26,7 +24,7 @@ public class CommentaryFactory implements Factory<Commentary>, MongoDbQuery<Comm
     }
 
     @Override
-    public void insertValue(Commentary object) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void insertValue(Commentary commentary) {
+        commentaryMongoDb.insert(commentary);
     }
 }

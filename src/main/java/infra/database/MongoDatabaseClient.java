@@ -63,5 +63,4 @@ public class MongoDatabaseClient {
     public MongoDatabase getRoot() {
         return root;
     }
-
 }

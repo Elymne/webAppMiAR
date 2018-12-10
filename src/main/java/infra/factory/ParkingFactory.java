@@ -9,43 +9,49 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import api.Factory;
+import api.MongoDbQuery;
 import api.entities.Parking;
 import infra.database.collection.ParkingCollection;
 import infra.repository.ParkingRepository;
 
-public class ParkingFactory implements Factory< Parking >
-{
-	@Autowired
-	ParkingRepository repository;
+public class ParkingFactory implements MongoDbQuery< Parking> {
 
-	@Autowired
-	ParkingCollection collection;
+    @Autowired
+    ParkingRepository repository;
 
-	@Override
-	public List< Parking > getAll()
-	{
-		collection.clear();
-		collection.insertAll( buildEvents( repository.getAll() ) );
+    @Autowired
+    ParkingCollection collection;
 
-		return collection.getAll();
-	}
+    @Override
+    public List< Parking> getAll() {
+        collection.clear();
+        collection.insertAll(buildEvents(repository.getAll()));
 
-	private List< Parking > buildEvents( JsonNode nodes )
-	{
-		ObjectMapper	mapper	= new ObjectMapper();
-		List< Parking >	list	= new ArrayList<>();
+        return collection.getAll();
+    }
 
-		try
-		{
-			for( JsonNode node : nodes )
-				list.add( mapper.readValue( node.findValue( "fields" ).toString(), Parking.class ) );
-		}
-		catch( IOException e )
-		{
-			e.printStackTrace();
-		}
+    private List< Parking> buildEvents(JsonNode nodes) {
+        ObjectMapper mapper = new ObjectMapper();
+        List< Parking> list = new ArrayList<>();
 
-		return list;
-	}
+        try {
+            for (JsonNode node : nodes) {
+                list.add(mapper.readValue(node.findValue("fields").toString(), Parking.class));
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return list;
+    }
+
+    @Override
+    public void loadDatabase() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void insertValue(Parking object) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }

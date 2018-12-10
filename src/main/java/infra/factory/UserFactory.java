@@ -1,8 +1,6 @@
 package infra.factory;
 
-import api.Factory;
 import api.MongoDbQuery;
-import api.entities.Parking;
 import api.entities.User;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -13,7 +11,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 
-public class UserFactory implements Factory<User>, MongoDbQuery<User> {
+public class UserFactory implements MongoDbQuery<User> {
 
     @Autowired
     UserCollection userMongoDb;

@@ -9,14 +9,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import api.Factory;
 import api.MongoDbQuery;
 import api.entities.Event;
-import api.entities.Parking;
 import infra.database.collection.EventCollection;
 import infra.repository.EventRepository;
 
-public class EventFactory implements Factory<Event>, MongoDbQuery<Event> {
+public class EventFactory implements MongoDbQuery<Event> {
 
     @Autowired
     EventRepository eventRepository;
