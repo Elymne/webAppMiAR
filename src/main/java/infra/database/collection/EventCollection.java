@@ -9,41 +9,36 @@ import api.DatabaseCollection;
 import api.entities.Event;
 import infra.database.MongoDatabaseClient;
 
-public class EventCollection implements DatabaseCollection< Event >
-{
-	MongoDatabaseClient mongoDatabaseClient = MongoDatabaseClient.getInstance();
+public class EventCollection implements DatabaseCollection< Event> {
 
-	private MongoCollection< Event > eventList = mongoDatabaseClient.getRoot().getCollection( "event", Event.class );
+    MongoDatabaseClient mongoDatabaseClient = MongoDatabaseClient.getInstance();
 
-	@Override
-	public void clear()
-	{
-		this.eventList.drop();
-	}
+    private MongoCollection< Event> eventList = mongoDatabaseClient.getRoot().getCollection("event", Event.class);
 
-	@Override
-	public void insert( Event event )
-	{
-		this.eventList.insertOne( event );
-	}
+    @Override
+    public void clear() {
+        this.eventList.drop();
+    }
 
-	@Override
-	public void insertAll( List< Event > listEvent )
-	{
-		this.eventList.insertMany( listEvent );
-	}
+    @Override
+    public void insert(Event event) {
+        this.eventList.insertOne(event);
+    }
 
-	@Override
-	public List< Event > getAll()
-	{
-		List< Event > res = new ArrayList<>();
+    @Override
+    public void insertAll(List< Event> listEvent) {
+        this.eventList.insertMany(listEvent);
+    }
 
-		for( Event event : this.eventList.find( Event.class ) )
-		{
-			res.add( event );
-		}
+    @Override
+    public List< Event> getAll() {
+        List< Event> res = new ArrayList<>();
 
-		return res;
-	}
+        for (Event event : this.eventList.find(Event.class)) {
+            res.add(event);
+        }
+
+        return res;
+    }
 
 }

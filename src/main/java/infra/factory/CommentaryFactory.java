@@ -8,7 +8,7 @@ import api.MongoDbQuery;
 import api.entities.Commentary;
 import infra.database.collection.CommentaryCollection;
 
-public class CommentaryFactory implements MongoDbQuery<Commentary>{
+public class CommentaryFactory implements MongoDbQuery<Commentary> {
 
     @Autowired
     CommentaryCollection commentaryMongoDb;

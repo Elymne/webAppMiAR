@@ -9,40 +9,37 @@ import api.DatabaseCollection;
 import api.entities.Parking;
 import infra.database.MongoDatabaseClient;
 
-public class ParkingCollection implements DatabaseCollection< Parking >
-{
-	MongoDatabaseClient mongoDatabaseClient = MongoDatabaseClient.getInstance();
+public class ParkingCollection implements DatabaseCollection< Parking> {
 
-	private MongoCollection< Parking > collection = mongoDatabaseClient.getRoot().getCollection( "parking",
-			Parking.class );
+    MongoDatabaseClient mongoDatabaseClient = MongoDatabaseClient.getInstance();
 
-	@Override
-	public void clear()
-	{
-		this.collection.drop();
-	}
+    private MongoCollection< Parking> collection = mongoDatabaseClient.getRoot().getCollection("parking",
+            Parking.class);
 
-	@Override
-	public void insert( Parking parking )
-	{
-		this.collection.insertOne( parking );
-	}
+    @Override
+    public void clear() {
+        this.collection.drop();
+    }
 
-	@Override
-	public void insertAll( List< Parking > parkings )
-	{
-		this.collection.insertMany( parkings );
-	}
+    @Override
+    public void insert(Parking parking) {
+        this.collection.insertOne(parking);
+    }
 
-	@Override
-	public List< Parking > getAll()
-	{
-		List< Parking > parkings = new ArrayList<>();
+    @Override
+    public void insertAll(List< Parking> parkings) {
+        this.collection.insertMany(parkings);
+    }
 
-		for( Parking parking : this.collection.find( Parking.class ) )
-			parkings.add( parking );
+    @Override
+    public List< Parking> getAll() {
+        List< Parking> parkings = new ArrayList<>();
 
-		return parkings;
-	}
+        for (Parking parking : this.collection.find(Parking.class)) {
+            parkings.add(parking);
+        }
+
+        return parkings;
+    }
 
 }

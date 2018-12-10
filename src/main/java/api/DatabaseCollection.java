@@ -2,14 +2,14 @@ package api;
 
 import java.util.List;
 
-public interface DatabaseCollection< T >
-{
-	public void clear();
+public interface DatabaseCollection< T> {
 
-	public void insert( T obj );
+    public void clear();
 
-	public void insertAll( List<T> obj );
+    public void insert(T obj);
 
-	public List<T> getAll();
+    public void insertAll(List<T> obj);
+
+    public List<T> getAll();
 
 }

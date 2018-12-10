@@ -14,7 +14,7 @@ public class EventService {
 
     @Autowired
     MongoDbQuery<Event> eventQuery;
-    
+
     @Autowired
     MongoDbQuery<Commentary> commentaryQuery;
 
@@ -78,11 +78,15 @@ public class EventService {
     }
 
     public boolean isValidCommentary(String message) {
-        return true;
+        boolean res = true;
+        if (message.length() < 20) {
+            res = false;
+        }
+        return res;
     }
 
     public void addNewCommentary(Commentary commentary) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        commentaryQuery.insertValue(commentary);
     }
 
     public void charge() {

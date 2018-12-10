@@ -6,13 +6,12 @@ import com.fasterxml.jackson.databind.JsonNode;
 
 import api.Repository;
 
-public class ParkingRepository implements Repository
-{
-	@Override
-	public JsonNode getAll()
-	{
-		return new RestTemplate()
-				.getForObject( basePath + "244400404_parkings-publics-nantes&rows=100", JsonNode.class )
-				.get( "records" );
-	}
+public class ParkingRepository implements Repository {
+
+    @Override
+    public JsonNode getAll() {
+        return new RestTemplate()
+                .getForObject(basePath + "244400404_parkings-publics-nantes&rows=100", JsonNode.class)
+                .get("records");
+    }
 }
