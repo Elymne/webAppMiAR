@@ -76,9 +76,10 @@ public class EventController {
         ObjectMapper mapper = new ObjectMapper();
         User user = mapper.readValue(payload, User.class);
         Boolean resultat = false;
-        if(service.isValidAccountName(user.login))
+        if(service.isValidAccountName(user.login)) {
             service.addNewUser(user);
             resultat = true;
+        }
         JSONObject json = new JSONObject();
         json.put("success", resultat);
         return json.toString();
