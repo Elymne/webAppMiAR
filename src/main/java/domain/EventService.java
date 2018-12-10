@@ -60,7 +60,7 @@ public class EventService {
             if (delta.distance(Double.parseDouble(latitude),
                     Double.parseDouble(longitude),
                     event.locationX,
-                    event.locationY) <= Double.parseDouble(radius) * 1000) {
+                    event.locationY) <= Double.parseDouble(radius)) {
                 res.add(event);
             }
         }

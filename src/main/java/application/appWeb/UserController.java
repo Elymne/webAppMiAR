@@ -40,14 +40,16 @@ public class UserController {
     @RequestMapping(value = "/connexion", method = RequestMethod.POST, consumes = "text/plain")
     @ResponseBody
     @CrossOrigin(origins = "http://localhost:3000")
-    public String connexion(@RequestBody String payload) throws IOException {
-        String res = null;
+    public String connexion(@RequestBody String payload) throws IOException, JSONException {
+        Boolean result = false;
         ObjectMapper mapper = new ObjectMapper();
         User user = mapper.readValue(payload, User.class);
         if (userService.isValidAuthentification(user.login, user.password)) {
-            res = "Bien jouÃ©";
+            result = true;
         }
-        return "hello from back!";
+        JSONObject json = new JSONObject();
+        json.put("success", result);
+        return json.toString();
     }
     
 }
