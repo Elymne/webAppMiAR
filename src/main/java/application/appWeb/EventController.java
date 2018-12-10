@@ -4,8 +4,7 @@ import java.io.IOException;
 import java.util.List;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.json.JSONException;
-import org.json.JSONObject;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,6 +16,8 @@ import api.entities.EventLocation;
 import api.entities.Parking;
 import api.entities.User;
 import domain.Service;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 @Controller
 public class EventController {
@@ -69,22 +70,25 @@ public class EventController {
         return "greeting";
     }
 
+    
     @RequestMapping(value = "/inscription", method = RequestMethod.POST, consumes = "text/plain")
     @ResponseBody
     @CrossOrigin(origins = "http://localhost:3000")
     public String inscription(@RequestBody String payload) throws IOException, JSONException {
         ObjectMapper mapper = new ObjectMapper();
         User user = mapper.readValue(payload, User.class);
-        Boolean resultat = false;
-        if(service.isValidAccountName(user.login)) {
+        Boolean result = false;
+        if (service.isValidAccountName(user.login)) {
             service.addNewUser(user);
-            resultat = true;
+            result = true;
         }
         JSONObject json = new JSONObject();
-        json.put("success", resultat);
+        json.put("success", result);
         return json.toString();
     }
+
     
+
     @RequestMapping(value = "/eventsByLocation", method = RequestMethod.POST, consumes = "text/plain")
     @ResponseBody
     @CrossOrigin(origins = "http://localhost:3000")
@@ -95,7 +99,7 @@ public class EventController {
         System.out.println(location.latitude + " " + location.longitude + " " + location.radius);
         return service.getEventByLocalisation(location.latitude, location.longitude, location.radius);
     }
-    
+
     @RequestMapping(value = "/connexion", method = RequestMethod.POST, consumes = "text/plain")
     @ResponseBody
     @CrossOrigin(origins = "http://localhost:3000")
@@ -103,8 +107,9 @@ public class EventController {
         String res = null;
         ObjectMapper mapper = new ObjectMapper();
         User user = mapper.readValue(payload, User.class);
-        if(service.isValidAuthentification(user.login, user.password))
-            res = "Bien joué";
+        if (service.isValidAuthentification(user.login, user.password)) {
+            res = "Bien jouÃ©";
+        }
         return "hello from back!";
     }
 
@@ -112,7 +117,7 @@ public class EventController {
     @ResponseBody
     public String charger() {
         service.charge();
-        return "Chargement événement, ceci ne sert que pour le tests, c'est rapide et pratique";
+        return "Chargement Ã©vÃ©nement, ceci ne sert que pour le tests, c'est rapide et pratique";
     }
 
 }
