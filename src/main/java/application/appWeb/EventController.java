@@ -15,6 +15,7 @@ import api.entities.EventLocation;
 import api.entities.Parking;
 import api.entities.User;
 import domain.Service;
+import org.json.JSONObject;
 
 @Controller
 public class EventController {
@@ -71,13 +72,20 @@ public class EventController {
     @ResponseBody
     @CrossOrigin(origins = "http://localhost:3000")
     public String inscription(@RequestBody String payload) throws IOException {
+        Boolean result = false;
+        JSONObject json = new JSONObject();
         ObjectMapper mapper = new ObjectMapper();
         User user = mapper.readValue(payload, User.class);
-        if(service.isValidAccountName(user.login))
-            service.addNewUser(user); 
-        return "hello from back!";
+        if (service.isValidAccountName(user.login)) {
+            service.addNewUser(user);
+        }
+        result = true;
+
+        json.put("result", result);
+        return json.toString();
     }
     
+
     @RequestMapping(value = "/eventsByLocation", method = RequestMethod.POST, consumes = "text/plain")
     @ResponseBody
     @CrossOrigin(origins = "http://localhost:3000")
@@ -87,7 +95,7 @@ public class EventController {
         System.out.println(location.latitude + " " + location.longitude + " " + location.radius);
         return service.getEventByLocalisation(location.latitude, location.longitude, location.radius);
     }
-    
+
     @RequestMapping(value = "/connexion", method = RequestMethod.POST, consumes = "text/plain")
     @ResponseBody
     @CrossOrigin(origins = "http://localhost:3000")
@@ -95,8 +103,9 @@ public class EventController {
         String res = null;
         ObjectMapper mapper = new ObjectMapper();
         User user = mapper.readValue(payload, User.class);
-        if(service.isValidAuthentification(user.login, user.password))
+        if (service.isValidAuthentification(user.login, user.password)) {
             res = "Bien joué";
+        }
         return "hello from back!";
     }
 
