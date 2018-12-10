@@ -54,9 +54,10 @@ public class Service {
     public List<Event> getEventByLocalisation(String latitude, String longitude, String radius) {
         List<Event> res = new ArrayList<>();
         for (Event event : getAllEvents()) {
-            if (delta.distance(Double.parseDouble(latitude), Double.parseDouble(longitude), event.locationX, event.locationY) <= Double.parseDouble(radius)*1000) {
+            if (delta.distance(Double.parseDouble(latitude), Double.parseDouble(longitude), event.locationX, event.locationY) <= Double.parseDouble(radius)) {
                 res.add(event);
             }
+
         }
         return res;
     }
