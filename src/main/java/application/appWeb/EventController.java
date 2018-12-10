@@ -78,8 +78,8 @@ public class EventController {
         User user = mapper.readValue(payload, User.class);
         if (service.isValidAccountName(user.login)) {
             service.addNewUser(user);
+            result = true;
         }
-        result = true;
 
         json.put("result", result);
         return json.toString();
