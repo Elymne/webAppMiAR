@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.util.List;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -70,18 +72,23 @@ public class EventController {
     @RequestMapping(value = "/inscription", method = RequestMethod.POST, consumes = "text/plain")
     @ResponseBody
     @CrossOrigin(origins = "http://localhost:3000")
-    public String inscription(@RequestBody String payload) throws IOException {
+    public String inscription(@RequestBody String payload) throws IOException, JSONException {
         ObjectMapper mapper = new ObjectMapper();
         User user = mapper.readValue(payload, User.class);
+        Boolean resultat = false;
         if(service.isValidAccountName(user.login))
-            service.addNewUser(user); 
-        return "hello from back!";
+            service.addNewUser(user);
+            resultat = true;
+        JSONObject json = new JSONObject();
+        json.put("success", resultat);
+        return json.toString();
     }
     
     @RequestMapping(value = "/eventsByLocation", method = RequestMethod.POST, consumes = "text/plain")
     @ResponseBody
     @CrossOrigin(origins = "http://localhost:3000")
     public List<Event> getEventByLocation(@RequestBody String payload) throws IOException {
+        System.out.println(payload);
         ObjectMapper mapper = new ObjectMapper();
         EventLocation location = mapper.readValue(payload, EventLocation.class);
         return service.getEventByLocalisation(location.latitude, location.longitude, location.radius);
