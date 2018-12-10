@@ -91,6 +91,7 @@ public class EventController {
         System.out.println(payload);
         ObjectMapper mapper = new ObjectMapper();
         EventLocation location = mapper.readValue(payload, EventLocation.class);
+        System.out.println(location.latitude + " " + location.longitude + " " + location.radius);
         return service.getEventByLocalisation(location.latitude, location.longitude, location.radius);
     }
     

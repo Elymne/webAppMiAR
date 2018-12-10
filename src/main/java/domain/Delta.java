@@ -18,5 +18,13 @@ public class Delta {
     public double deg2rad(double deg) {
         return deg * (Math.PI / 180);
     }
+    
+    public static void main(String[] args) {
+        
+        Delta delta = new Delta();
+        
+        System.out.println(delta.distance(10,10, 40, 60));
+        
+    }
 
 }
