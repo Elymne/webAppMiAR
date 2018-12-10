@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import api.entities.Commentary;
 import api.entities.Event;
+import api.entities.EventLocation;
 import api.entities.Parking;
 import api.entities.User;
 import domain.Service;
@@ -75,6 +76,15 @@ public class EventController {
         if(service.isValidAccountName(user.login))
             service.addNewUser(user); 
         return "hello from back!";
+    }
+    
+    @RequestMapping(value = "/eventsByLocation", method = RequestMethod.POST, consumes = "text/plain")
+    @ResponseBody
+    @CrossOrigin(origins = "http://localhost:3000")
+    public List<Event> getEventByLocation(@RequestBody String payload) throws IOException {
+        ObjectMapper mapper = new ObjectMapper();
+        EventLocation location = mapper.readValue(payload, EventLocation.class);
+        return service.getEventByLocalisation(location.latitude, location.longitude, location.radius);
     }
     
     @RequestMapping(value = "/connexion", method = RequestMethod.POST, consumes = "text/plain")

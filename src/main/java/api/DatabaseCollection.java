@@ -8,8 +8,8 @@ public interface DatabaseCollection< T >
 
 	public void insert( T obj );
 
-	public void insertAll( List< T > obj );
+	public void insertAll( List<T> obj );
 
-	public List< T > getAll();
+	public List<T> getAll();
 
 }

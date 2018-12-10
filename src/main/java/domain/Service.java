@@ -15,22 +15,24 @@ import api.entities.User;
 public class Service {
 
     @Autowired
-    Factory< Event> eventFactory;
+    Factory<Event> eventFactory;
 
     @Autowired
-    Factory< Parking> parkingFactory;
+    Factory<Parking> parkingFactory;
 
     @Autowired
-    Factory< Commentary> commentaryFactory;
+    Factory<Commentary> commentaryFactory;
 
     @Autowired
-    Factory< User> userFactory;
+    Factory<User> userFactory;
 
     @Autowired
-    MongoDbQuery< Event> eventQuery;
+    MongoDbQuery<Event> eventQuery;
 
     @Autowired
-    MongoDbQuery< User> userQuery;
+    MongoDbQuery<User> userQuery;
+
+    Delta delta = new Delta();
 
     public List< Event> getAllEvents() {
         if (eventFactory.getAll().isEmpty()) {
@@ -44,6 +46,16 @@ public class Service {
         for (Event event : eventFactory.getAll()) {
             if (event.recordid.equals(id)) {
                 res = event;
+            }
+        }
+        return res;
+    }
+
+    public List<Event> getEventByLocalisation(String latitude, String longitude, String radius) {
+        List<Event> res = new ArrayList<>();
+        for (Event event : getAllEvents()) {
+            if (delta.distance(Double.parseDouble(latitude), Double.parseDouble(longitude), event.locationX, event.locationY) <= Double.parseDouble(radius)) {
+                res.add(event);
             }
         }
         return res;

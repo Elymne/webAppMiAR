@@ -7,9 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import api.Factory;
 import api.MongoDbQuery;
 import api.entities.Commentary;
+import api.entities.Parking;
 import infra.database.collection.CommentaryCollection;
 
-public class CommentaryFactory implements Factory< Commentary>, MongoDbQuery<Commentary>{
+public class CommentaryFactory implements Factory<Commentary>, MongoDbQuery<Commentary>{
 
     @Autowired
     CommentaryCollection commentaryMongoDb;

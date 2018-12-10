@@ -2,6 +2,7 @@ package infra.factory;
 
 import api.Factory;
 import api.MongoDbQuery;
+import api.entities.Parking;
 import api.entities.User;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -44,5 +45,4 @@ public class UserFactory implements Factory<User>, MongoDbQuery<User> {
     public void loadDatabase() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-
 }

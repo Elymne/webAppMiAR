@@ -12,6 +12,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import api.Factory;
 import api.MongoDbQuery;
 import api.entities.Event;
+import api.entities.Parking;
 import infra.database.collection.EventCollection;
 import infra.repository.EventRepository;
 

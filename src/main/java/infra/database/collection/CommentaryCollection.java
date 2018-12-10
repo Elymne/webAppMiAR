@@ -9,7 +9,7 @@ import api.DatabaseCollection;
 import api.entities.Commentary;
 import infra.database.MongoDatabaseClient;
 
-public class CommentaryCollection implements DatabaseCollection< Commentary> {
+public class CommentaryCollection implements DatabaseCollection<Commentary> {
 
     MongoDatabaseClient mongoDatabaseClient = MongoDatabaseClient.getInstance();
 
@@ -27,13 +27,13 @@ public class CommentaryCollection implements DatabaseCollection< Commentary> {
     }
 
     @Override
-    public void insertAll(List< Commentary> commentaryList) {
+    public void insertAll(List<Commentary> commentaryList) {
         this.commentaryList.insertMany(commentaryList);
     }
 
     @Override
-    public List< Commentary> getAll() {
-        List< Commentary> res = new ArrayList<>();
+    public List<Commentary> getAll() {
+        List<Commentary> res = new ArrayList<>();
 
         for (Commentary commentary : this.commentaryList.find(Commentary.class)) {
             res.add(commentary);

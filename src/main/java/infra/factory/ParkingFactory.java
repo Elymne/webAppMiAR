@@ -48,5 +48,4 @@ public class ParkingFactory implements Factory< Parking >
 
 		return list;
 	}
-
 }
