@@ -84,6 +84,7 @@ public class EventController {
     public List<Event> getEventByLocation(@RequestBody String payload) throws IOException {
         ObjectMapper mapper = new ObjectMapper();
         EventLocation location = mapper.readValue(payload, EventLocation.class);
+        System.out.println(location.latitude + " " + location.longitude + " " + location.radius);
         return service.getEventByLocalisation(location.latitude, location.longitude, location.radius);
     }
     
