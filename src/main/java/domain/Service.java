@@ -11,6 +11,7 @@ import api.entities.Commentary;
 import api.entities.Event;
 import api.entities.Parking;
 import api.entities.User;
+import org.joda.time.LocalDateTime;
 
 public class Service {
 
@@ -35,10 +36,29 @@ public class Service {
     Delta delta = new Delta();
 
     public List< Event> getAllEvents() {
+        List<Event> res = new ArrayList<>();
+        LocalDateTime date = new LocalDateTime();
+        String[] parts = null;
+        int year, month, day;
         if (eventFactory.getAll().isEmpty()) {
             eventQuery.loadDatabase();
         }
-        return eventFactory.getAll();
+        for (Event event : eventFactory.getAll()) {
+            parts = event.date.split("-");
+            year = Integer.parseInt(parts[0]);
+            month = Integer.parseInt(parts[1]);
+            day = Integer.parseInt(parts[2]);
+            System.out.println(" Annee : " + year + " Mois : " + month + " Jour : " + day);
+            System.out.println("Annee Actuelle " + date.getYear() + " Mois Actuel " + date.getMonthOfYear() + " Jour : " + date.getDayOfMonth());
+            if (date.getYear() == year) {
+                if (date.getMonthOfYear()== month) {
+                    if (date.getDayOfMonth() + 7 >= day) {
+                        res.add(event);
+                    }
+                }
+            }
+        }
+        return res;
     }
 
     public Event getEventById(String id) {
@@ -54,7 +74,7 @@ public class Service {
     public List<Event> getEventByLocalisation(String latitude, String longitude, String radius) {
         List<Event> res = new ArrayList<>();
         for (Event event : getAllEvents()) {
-            if (delta.distance(Double.parseDouble(latitude), Double.parseDouble(longitude), event.locationX, event.locationY) <= Double.parseDouble(radius)*1000) {
+            if (delta.distance(Double.parseDouble(latitude), Double.parseDouble(longitude), event.locationX, event.locationY) <= Double.parseDouble(radius) * 1000) {
                 res.add(event);
             }
         }

@@ -11,7 +11,7 @@ public class EventRepository implements Repository {
     @Override
     public JsonNode getAll() {
         return new RestTemplate()
-                .getForObject(basePath + "244400404_agenda-evenements-nantes-nantes-metropole&rows=100",
+                .getForObject(basePath + "244400404_agenda-evenements-nantes-nantes-metropole&rows=1000",
                         JsonNode.class)
                 .get("records");
     }
