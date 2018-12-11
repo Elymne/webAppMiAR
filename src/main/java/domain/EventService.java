@@ -4,93 +4,88 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 
+import api.Factory;
 import api.MongoDbQuery;
 import api.entities.Commentary;
 import api.entities.Event;
-import org.joda.time.LocalDateTime;
+import infra.database.collection.EventCollection;
+import infra.repository.EventRepository;
 
-public class EventService {
+public class EventService
+{
 
-    @Autowired
-    MongoDbQuery<Event> eventQuery;
+	@Autowired
+	EventCollection collection;
 
-    @Autowired
-    MongoDbQuery<Commentary> commentaryQuery;
+	@Autowired
+	EventRepository repository;
 
-    Delta delta = new Delta();
+	@Autowired
+	Factory< Event > factory;
 
-    public List< Event> getAllEvents() {
-        List<Event> res = new ArrayList<>();
-        LocalDateTime date = new LocalDateTime();
-        String[] parts = null;
-        int year, month, day;
-        if (eventQuery.getAll().isEmpty()) {
-            eventQuery.loadDatabase();
-        }
-        for (Event event : eventQuery.getAll()) {
-            parts = event.date.split("-");
-            year = Integer.parseInt(parts[0]);
-            month = Integer.parseInt(parts[1]);
-            day = Integer.parseInt(parts[2]);
-            if (date.getYear() == year) {
-                if (date.getMonthOfYear() == month) {
-                    if (date.getDayOfMonth() + 7 >= day) {
-                        res.add(event);
-                    }
-                }
-            }
-        }
-        return res;
-    }
 
-    public Event getEventById(String id) {
-        Event res = null;
-        for (Event event : eventQuery.getAll()) {
-            if (event.recordid.equals(id)) {
-                res = event;
-            }
-        }
-        return res;
-    }
+	Delta delta = new Delta();
 
-    public List<Event> getEventByLocalisation(String latitude, String longitude, String radius) {
-        List<Event> res = new ArrayList<>();
-        for (Event event : getAllEvents()) {
-            if (delta.distance(Double.parseDouble(latitude),
-                    Double.parseDouble(longitude),
-                    event.locationX,
-                    event.locationY) <= Double.parseDouble(radius)) {
-                res.add(event);
-            }
-        }
-        return res;
-    }
+	@Scheduled( fixedRate = ( 1000 * 60 * 60 * 24 ) ) // Scheduled for once a day.
+	public void update() // TODO: saveAll instead of deleting. Needs Event.recordId as @Id
+	{
+		System.out.println( "update!" );
+		collection.saveAll( factory.build( repository.getAll() ) );
+	}
 
-    public List< Commentary> getAllCommentaryById(String id) {
-        List< Commentary> res = new ArrayList<>();
-        for (Commentary commentary : commentaryQuery.getAll()) {
-            if (commentary.idEvent.equals(id)) {
-                res.add(commentary);
-            }
-        }
-        return res;
-    }
+	public List< Event > getAll()
+	{
+		return collection.findAll();
+	}
 
-    public boolean isValidCommentary(String message) {
-        boolean res = true;
-        if (message.length() < 20) {
-            res = false;
-        }
-        return res;
-    }
+	public Event getById( String id )
+	{
+		return collection.findByRecordid( id );
+	}
 
-    public void addNewCommentary(Commentary commentary) {
-        commentaryQuery.insertValue(commentary);
-    }
+	public List< Event > findWithin( double latitude, double longitude, double distance )
+	{
+		List< Event > events = new ArrayList<>();
 
-    public void charge() {
-        eventQuery.loadDatabase();
-    }
+		for( Event event : this.getAll() )
+			if( delta.distance( latitude, longitude, event.locationX, event.locationY ) <= distance )
+				events.add( event );
 
+		return events;
+	}
+
+
+	// TODO: move all these methods to CommentaryService
+	@Autowired
+	MongoDbQuery< Commentary > commentaryQuery;
+
+	public List< Commentary > getAllCommentaryById( String id )
+	{
+		List< Commentary > res = new ArrayList<>();
+		for( Commentary commentary : commentaryQuery.getAll() )
+		{
+			if( commentary.idEvent.equals( id ) )
+			{
+				res.add( commentary );
+			}
+		}
+		return res;
+	}
+
+	public boolean isValidCommentary( String message )
+	{
+		boolean res = true;
+		if( message.length() < 20 )
+		{
+			res = false;
+		}
+		return res;
+	}
+
+	public void addNewCommentary( Commentary commentary )
+	{
+		commentaryQuery.insertValue( commentary );
+	}
 }

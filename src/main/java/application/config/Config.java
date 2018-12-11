@@ -3,7 +3,9 @@ package application.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
+import api.Factory;
 import api.MongoDbQuery;
 import api.entities.Commentary;
 import api.entities.Event;
@@ -20,6 +22,7 @@ import infra.repository.EventRepository;
 import infra.repository.ParkingRepository;
 
 @Configuration
+@EnableScheduling
 @EnableMongoRepositories( basePackages = "infra.database.collection" )
 public class Config
 {
@@ -55,12 +58,14 @@ public class Config
 		return new ParkingRepository();
 	}
 
-	// Queries
+	// Factories
 	@Bean
-	public MongoDbQuery< Event > getEventMongoDbQuery()
+	public Factory< Event > getEventFactory()
 	{
 		return new EventFactory();
 	}
+
+	// Queries
 
 	@Bean
 	public MongoDbQuery< Commentary > getCommentaryMongoDbQuery()

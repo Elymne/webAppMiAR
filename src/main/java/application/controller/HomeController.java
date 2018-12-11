@@ -17,14 +17,18 @@ public class HomeController
 
 	// Ne pas supprimer le fichier (pour le moment)
 
-    @GetMapping("/greeting")
-    public String greeting(Event event, Model model) {
-        event = service.getEventById("1");
-        if (event != null) {
-            model.addAttribute("event", event.nom);
-        } else {
-            model.addAttribute("event", "ERREUR");
-        }
-        return "greeting";
-    }
+	@GetMapping( "/greeting" )
+	public String greeting( Event event, Model model )
+	{
+		event = service.getById( "1" );
+		if( event != null )
+		{
+			model.addAttribute( "event", event.nom );
+		}
+		else
+		{
+			model.addAttribute( "event", "ERREUR" );
+		}
+		return "greeting";
+	}
 }

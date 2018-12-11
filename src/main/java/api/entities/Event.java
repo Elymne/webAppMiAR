@@ -1,5 +1,7 @@
 package api.entities;
 
+import org.springframework.data.annotation.Id;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonSetter;
 
@@ -7,6 +9,7 @@ import com.fasterxml.jackson.annotation.JsonSetter;
 //@Document( collection = "si tu veux que ce genre d'objet aille dans une collection custom" )
 public class Event
 {
+	@Id
 	public String recordid;
 
 	public String	nom;

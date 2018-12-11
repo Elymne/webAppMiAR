@@ -9,4 +9,6 @@ import api.entities.Event;
 public interface EventCollection extends MongoRepository< Event, String >
 {
 	List< Event > findByNom( String nom );
+
+	Event findByRecordid( String id );
 }
