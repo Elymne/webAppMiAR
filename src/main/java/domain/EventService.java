@@ -35,7 +35,7 @@ public class EventService {
             day = Integer.parseInt(parts[2]);
             if (date.getYear() == year) {
                 if (date.getMonthOfYear() == month) {
-                    if (date.getDayOfMonth() + 7 >= day) {
+                    if (date.getDayOfMonth() + 14 >= day) {
                         res.add(event);
                     }
                 }

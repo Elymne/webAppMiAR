@@ -35,7 +35,7 @@ public class UserCollection implements DatabaseCollection< User>, Authentificati
         Bson query = combine(set("connected", true));
         this.userList.updateOne(filter, query);
     }
-    
+
     @Override
     public void logout(User user) {
         Bson filter = eq("login", user.login);
@@ -57,5 +57,6 @@ public class UserCollection implements DatabaseCollection< User>, Authentificati
         }
 
         return res;
+
     }
 }
