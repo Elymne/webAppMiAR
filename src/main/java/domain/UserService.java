@@ -18,7 +18,7 @@ public class UserService {
         boolean res = true;
         for (User user : userQuery.getAll()) {
             if (user.login.equals(accountName)) {
-                if (!user.password.equals(user)) {
+                if (!user.password.equals(password)) {
                     res = false;
                 }
             }
