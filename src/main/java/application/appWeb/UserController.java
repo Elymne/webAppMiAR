@@ -55,4 +55,18 @@ public class UserController {
         return json.toString();
     }
 
+    @RequestMapping(value = "/deconnexion", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    @CrossOrigin(origins = "http://localhost:3000")
+    public String deconnexion(@RequestBody User user) throws IOException, JSONException {
+        Boolean result = false;
+
+        userService.logout(user);
+
+        JSONObject json = new JSONObject();
+        json.put("success", result);
+        json.put("idUser", user.login);
+        return json.toString();
+    }
+
 }
