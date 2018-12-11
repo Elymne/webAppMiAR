@@ -65,6 +65,12 @@ public class Config
 		return new EventFactory();
 	}
 
+	@Bean
+	public Factory< Parking > getParkingMongoDbQuery()
+	{
+		return new ParkingFactory();
+	}
+
 	// Queries
 
 	@Bean
@@ -77,12 +83,6 @@ public class Config
 	public MongoDbQuery< User > getUserMongoDbQuery()
 	{
 		return new UserFactory();
-	}
-
-	@Bean
-	public MongoDbQuery< Parking > getParkingMongoDbQuery()
-	{
-		return new ParkingFactory();
 	}
 
 }

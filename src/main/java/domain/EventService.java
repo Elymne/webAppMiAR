@@ -15,7 +15,6 @@ import infra.repository.EventRepository;
 
 public class EventService
 {
-
 	@Autowired
 	EventCollection collection;
 
@@ -29,9 +28,9 @@ public class EventService
 	Delta delta = new Delta();
 
 	@Scheduled( fixedRate = ( 1000 * 60 * 60 * 24 ) ) // Scheduled for once a day.
-	public void update() // TODO: saveAll instead of deleting. Needs Event.recordId as @Id
+	public void update()
 	{
-		System.out.println( "update!" );
+		// System.out.println( "update!" );
 		collection.saveAll( factory.build( repository.getAll() ) );
 	}
 

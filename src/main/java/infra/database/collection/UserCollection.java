@@ -6,5 +6,4 @@ import api.entities.User;
 
 public interface UserCollection extends MongoRepository< User, String >
 {
-
 }

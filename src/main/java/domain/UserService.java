@@ -40,9 +40,10 @@ public class UserService
 	public boolean isValidAuthentification( String accountName, String password )
 	{
 		boolean res = false;
+
 		for( User user : userQuery.getAll() )
 			if( user.login.equals( accountName ) )
-				if( user.password.equals( user ) )
+				if( user.password.equals( password ) )
 					if( !user.connected )
 						res = true;
 
