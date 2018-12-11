@@ -17,43 +17,42 @@ import api.entities.User;
 import domain.UserService;
 
 @Controller
-public class UserController
-{
+public class UserController {
 
-	@Autowired
-	UserService userService;
+    @Autowired
+    UserService userService;
 
-	@RequestMapping( value = "/inscription", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE )
-	@ResponseBody
-	@CrossOrigin( origins = "http://localhost:3000" )
-	public String inscription( @RequestBody User user ) throws IOException, JSONException
-	{
-		Boolean result = false;
+    @RequestMapping(value = "/inscription", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    @CrossOrigin(origins = "http://localhost:3000")
+    public String inscription(@RequestBody User user) throws IOException, JSONException {
+        Boolean result = false;
 
-		if( userService.isValidAccountName( user.login ) )
-		{
-			userService.addNewUser( user );
-			result = true;
-		}
+        if (userService.isValidAccountName(user.login)) {
+            userService.addNewUser(user);
+            result = true;
+        }
 
-		JSONObject json = new JSONObject();
-		json.put( "success", result );
-		return json.toString();
-	}
+        JSONObject json = new JSONObject();
+        json.put("success", result);
+        return json.toString();
+    }
 
-	@RequestMapping( value = "/connexion", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE )
-	@ResponseBody
-	@CrossOrigin( origins = "http://localhost:3000" )
-	public String connexion( @RequestBody User user ) throws IOException, JSONException
-	{
-		Boolean result = false;
+    @RequestMapping(value = "/connexion", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    @CrossOrigin(origins = "http://localhost:3000")
+    public String connexion(@RequestBody User user) throws IOException, JSONException {
+        Boolean result = false;
 
-		if( userService.isValidAuthentification( user.login, user.password ) )
-			result = true;
+        if (userService.isValidAuthentification(user.login, user.password)) {
+            userService.login(user);
+            result = true;
+        }
 
-		JSONObject json = new JSONObject();
-		json.put( "success", result );
-		return json.toString();
-	}
+        JSONObject json = new JSONObject();
+        json.put("success", result);
+        json.put("idUser", user.login);
+        return json.toString();
+    }
 
 }
