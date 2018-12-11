@@ -2,7 +2,6 @@ package application.appWeb;
 
 import api.entities.User;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import domain.EventService;
 import domain.UserService;
 import java.io.IOException;
 import org.json.JSONException;
@@ -17,10 +16,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 public class UserController {
-    
+
     @Autowired
     UserService userService;
-    
+
     @RequestMapping(value = "/inscription", method = RequestMethod.POST, consumes = "text/plain")
     @ResponseBody
     @CrossOrigin(origins = "http://localhost:3000")
@@ -36,18 +35,38 @@ public class UserController {
         json.put("success", result);
         return json.toString();
     }
-    
+
     @RequestMapping(value = "/connexion", method = RequestMethod.POST, consumes = "text/plain")
     @ResponseBody
     @CrossOrigin(origins = "http://localhost:3000")
-    public String connexion(@RequestBody String payload) throws IOException {
-        String res = null;
+    public String connexion(@RequestBody String payload) throws IOException, JSONException {
+        boolean result = false;
         ObjectMapper mapper = new ObjectMapper();
         User user = mapper.readValue(payload, User.class);
         if (userService.isValidAuthentification(user.login, user.password)) {
-            res = "Bien jouÃ©";
+            result = true;
+            userService.login(user);
         }
-        return "hello from back!";
+        JSONObject json = new JSONObject();
+        json.put("success", result);
+        json.put("user", user.login);
+        json.put("connected", user.connected);
+        return json.toString();
     }
-    
+
+    @RequestMapping(value = "/deconnexion", method = RequestMethod.POST, consumes = "text/plain")
+    @ResponseBody
+    @CrossOrigin(origins = "http://localhost:3000")
+    public String deconnexion(@RequestBody String payload) throws IOException, JSONException {
+        boolean result = false;
+        ObjectMapper mapper = new ObjectMapper();
+        User user = mapper.readValue(payload, User.class);
+        userService.logout(user);
+        if (userService.getUserByName(user.login).connected) {
+            result = false;
+        }
+        JSONObject json = new JSONObject();
+        json.put("success", result);
+        return json.toString();
+    }
 }

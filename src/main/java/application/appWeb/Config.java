@@ -1,5 +1,6 @@
 package application.appWeb;
 
+import api.Authentification;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -21,6 +22,7 @@ import infra.factory.ParkingFactory;
 import infra.factory.UserFactory;
 import infra.repository.EventRepository;
 import infra.repository.ParkingRepository;
+import org.springframework.context.annotation.Primary;
 
 @Configuration
 public class Config {
@@ -92,6 +94,12 @@ public class Config {
     @Bean
     public MongoDbQuery< Parking> getParkingMongoDbQuery() {
         return new ParkingFactory();
+    }
+    
+    @Bean
+    @Primary
+    public Authentification getAuthentification() {
+        return new UserCollection();
     }
 
 }

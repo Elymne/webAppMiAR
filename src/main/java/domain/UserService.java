@@ -1,5 +1,6 @@
 package domain;
 
+import api.Authentification;
 import api.MongoDbQuery;
 import api.entities.User;
 import java.util.List;
@@ -10,16 +11,31 @@ public class UserService {
     @Autowired
     MongoDbQuery<User> userQuery;
 
+    @Autowired
+    Authentification authentification;
+
     public List< User> getAllUser() {
         return userQuery.getAll();
     }
 
+    public User getUserByName(String userName) {
+        User res = null;
+        for (User user : getAllUser()) {
+            if (user.login.equals(userName)) {
+                res = user;
+            }
+        }
+        return res;
+    }
+
     public boolean isValidAuthentification(String accountName, String password) {
-        boolean res = true;
+        boolean res = false;
         for (User user : userQuery.getAll()) {
             if (user.login.equals(accountName)) {
-                if (!user.password.equals(user)) {
-                    res = false;
+                if (user.password.equals(user)) {
+                    if (!user.connected) {
+                        res = true;
+                    }
                 }
             }
         }
@@ -38,6 +54,14 @@ public class UserService {
 
     public void addNewUser(User user) {
         userQuery.insertValue(user);
+    }
+
+    public void login(User user) {
+        authentification.login(user);
+    }
+
+    public void logout(User user) {
+        authentification.logout(user);
     }
 
 }
