@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.List;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import api.entities.Commentary;
@@ -45,7 +46,7 @@ public class EventController {
         return eventService.getAllCommentaryById(id);
     }
 
-    @RequestMapping(value = "/eventsByLocation", method = RequestMethod.POST, consumes = "text/plain")
+    @RequestMapping(value = "/eventsByLocation", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     @CrossOrigin(origins = "http://localhost:3000")
     public List<Event> getEventByLocation(@RequestBody String payload) throws IOException {
@@ -56,7 +57,7 @@ public class EventController {
         return eventService.getEventByLocalisation(location.latitude, location.longitude, location.radius);
     }
 
-    @RequestMapping(value = "/commentaire/ajout", method = RequestMethod.POST, consumes = "text/plain")
+    @RequestMapping(value = "/commentaire/ajout", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     @CrossOrigin(origins = "http://localhost:3000")
     public String addCommentary(@RequestBody String payload) throws IOException, JSONException {
