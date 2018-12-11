@@ -24,6 +24,7 @@ public class UserController {
     @ResponseBody
     @CrossOrigin(origins = "http://localhost:3000")
     public String inscription(@RequestBody String payload) throws IOException, JSONException {
+        System.out.println(payload);    //for test
         ObjectMapper mapper = new ObjectMapper();
         User user = mapper.readValue(payload, User.class);
         Boolean result = false;
