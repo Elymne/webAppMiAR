@@ -1,46 +1,58 @@
 package infra.factory;
 
-import api.MongoDbQuery;
-import api.entities.User;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import infra.database.collection.UserCollection;
 import java.io.IOException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
-public class UserFactory implements MongoDbQuery<User> {
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
-    @Autowired
-    UserCollection userMongoDb;
+import api.MongoDbQuery;
+import api.entities.User;
+import infra.database.collection.UserCollection;
 
-    @Override
-    public List<User> getAll() {
-        return userMongoDb.getAll();
-    }
+public class UserFactory implements MongoDbQuery< User >
+{
 
-    @Override
-    public void insertValue(User user) {
-        this.userMongoDb.insert(user);
-    }
+	@Autowired
+	UserCollection userMongoDb;
 
-    private User buildUser(JsonNode node) {
-        ObjectMapper mapper = new ObjectMapper();
-        User res = null;
+	@Override
+	public List< User > getAll()
+	{
+		return userMongoDb.findAll();
+	}
 
-        try {
-            User user = mapper.readValue(node.findValue("fields").toString(), User.class);
-        } catch (IOException ex) {
-            Logger.getLogger(UserFactory.class.getName()).log(Level.SEVERE, null, ex);
-        }
+	@Override
+	public void insertValue( User user )
+	{
+		this.userMongoDb.insert( user );
+	}
 
-        return res;
-    }
+	private User buildUser( JsonNode node )
+	{
+		ObjectMapper	mapper	= new ObjectMapper();
+		User			res		= null;
 
-    @Override
-    public void loadDatabase() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+		try
+		{
+			User user = mapper.readValue( node.findValue( "fields" ).toString(), User.class );
+		}
+		catch( IOException ex )
+		{
+			Logger.getLogger( UserFactory.class.getName() ).log( Level.SEVERE, null, ex );
+		}
+
+		return res;
+	}
+
+	@Override
+	public void loadDatabase()
+	{
+		throw new UnsupportedOperationException( "Not supported yet." ); // To change body of generated methods, choose
+																			// Tools | Templates.
+	}
 }

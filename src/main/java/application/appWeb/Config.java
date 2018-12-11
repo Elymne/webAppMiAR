@@ -1,8 +1,8 @@
 package application.appWeb;
 
-import api.Authentification;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 
 import api.MongoDbQuery;
 import api.entities.Commentary;
@@ -12,94 +12,72 @@ import api.entities.User;
 import domain.EventService;
 import domain.ParkingService;
 import domain.UserService;
-import infra.database.collection.CommentaryCollection;
-import infra.database.collection.EventCollection;
-import infra.database.collection.ParkingCollection;
-import infra.database.collection.UserCollection;
 import infra.factory.CommentaryFactory;
 import infra.factory.EventFactory;
 import infra.factory.ParkingFactory;
 import infra.factory.UserFactory;
 import infra.repository.EventRepository;
 import infra.repository.ParkingRepository;
-import org.springframework.context.annotation.Primary;
 
 @Configuration
-public class Config {
+@EnableMongoRepositories( basePackages = "infra.database.collection" )
+public class Config
+{
+	// Service
+	@Bean
+	public EventService getEventService()
+	{
+		return new EventService();
+	}
 
-    // Service
-    @Bean
-    public EventService getEventService() {
-        return new EventService();
-    }
-    
-    @Bean
-    public ParkingService getParkingService() {
-        return new ParkingService();
-    }
-    
-    @Bean
-    public UserService getUserService() {
-        return new UserService();
-    }
+	@Bean
+	public ParkingService getParkingService()
+	{
+		return new ParkingService();
+	}
 
-    // Repositories
-    @Bean
-    public EventRepository getEventRepository() {
-        return new EventRepository();
-    }
+	@Bean
+	public UserService getUserService()
+	{
+		return new UserService();
+	}
 
-    @Bean
-    public ParkingRepository getParkingRepository() {
-        return new ParkingRepository();
-    }
+	// Repositories
+	@Bean
+	public EventRepository getEventRepository()
+	{
+		return new EventRepository();
+	}
 
-    // Collections
-    @Bean
-    public EventCollection getEventCollection() {
-        return new EventCollection();
-    }
+	@Bean
+	public ParkingRepository getParkingRepository()
+	{
+		return new ParkingRepository();
+	}
 
-    @Bean
-    public ParkingCollection getParkingCollection() {
-        return new ParkingCollection();
-    }
+	// Queries
+	@Bean
+	public MongoDbQuery< Event > getEventMongoDbQuery()
+	{
+		return new EventFactory();
+	}
 
-    @Bean
-    public CommentaryCollection getCommentaryCollection() {
-        return new CommentaryCollection();
-    }
+	@Bean
+	public MongoDbQuery< Commentary > getCommentaryMongoDbQuery()
+	{
+		return new CommentaryFactory();
+	}
 
-    @Bean
-    public UserCollection getUserCollection() {
-        return new UserCollection();
-    }
+	@Bean
+	public MongoDbQuery< User > getUserMongoDbQuery()
+	{
+		return new UserFactory();
+	}
 
-    // Queries
-    @Bean
-    public MongoDbQuery< Event> getEventMongoDbQuery() {
-        return new EventFactory();
-    }
-
-    @Bean
-    public MongoDbQuery< Commentary> getCommentaryMongoDbQuery() {
-        return new CommentaryFactory();
-    }
-
-    @Bean
-    public MongoDbQuery< User> getUserMongoDbQuery() {
-        return new UserFactory();
-    }
-    
-    @Bean
-    public MongoDbQuery< Parking> getParkingMongoDbQuery() {
-        return new ParkingFactory();
-    }
-    
-    @Bean
-    @Primary
-    public Authentification getAuthentification() {
-        return new UserCollection();
-    }
+	@Bean
+	public MongoDbQuery< Parking > getParkingMongoDbQuery()
+	{
+		return new ParkingFactory();
+	}
 
 }

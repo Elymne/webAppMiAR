@@ -14,44 +14,54 @@ import api.entities.Parking;
 import infra.database.collection.ParkingCollection;
 import infra.repository.ParkingRepository;
 
-public class ParkingFactory implements MongoDbQuery< Parking> {
+public class ParkingFactory implements MongoDbQuery< Parking >
+{
+	@Autowired
+	ParkingRepository repository;
 
-    @Autowired
-    ParkingRepository repository;
+	@Autowired
+	ParkingCollection collection;
 
-    @Autowired
-    ParkingCollection collection;
+	@Override
+	public List< Parking > getAll()
+	{
+		collection.deleteAll();
+		collection.insert( buildEvents( repository.getAll() ) );
 
-    @Override
-    public List< Parking> getAll() {
-        collection.clear();
-        collection.insertAll(buildEvents(repository.getAll()));
+		return collection.findAll();
+	}
 
-        return collection.getAll();
-    }
+	private List< Parking > buildEvents( JsonNode nodes )
+	{
+		ObjectMapper	mapper	= new ObjectMapper();
+		List< Parking >	list	= new ArrayList<>();
 
-    private List< Parking> buildEvents(JsonNode nodes) {
-        ObjectMapper mapper = new ObjectMapper();
-        List< Parking> list = new ArrayList<>();
+		try
+		{
+			for( JsonNode node : nodes )
+			{
+				list.add( mapper.readValue( node.findValue( "fields" ).toString(), Parking.class ) );
+			}
+		}
+		catch( IOException e )
+		{
+			e.printStackTrace();
+		}
 
-        try {
-            for (JsonNode node : nodes) {
-                list.add(mapper.readValue(node.findValue("fields").toString(), Parking.class));
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+		return list;
+	}
 
-        return list;
-    }
+	@Override
+	public void loadDatabase()
+	{
+		throw new UnsupportedOperationException( "Not supported yet." ); // To change body of generated methods, choose
+																			// Tools | Templates.
+	}
 
-    @Override
-    public void loadDatabase() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void insertValue(Parking object) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+	@Override
+	public void insertValue( Parking object )
+	{
+		throw new UnsupportedOperationException( "Not supported yet." ); // To change body of generated methods, choose
+																			// Tools | Templates.
+	}
 }

@@ -1,4 +1,4 @@
-package application.appWeb;
+package application.controller;
 
 import java.io.IOException;
 import java.util.List;

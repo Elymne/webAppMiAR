@@ -14,50 +14,60 @@ import api.entities.Event;
 import infra.database.collection.EventCollection;
 import infra.repository.EventRepository;
 
-public class EventFactory implements MongoDbQuery<Event> {
+public class EventFactory implements MongoDbQuery< Event >
+{
+	@Autowired
+	EventRepository eventRepository;
 
-    @Autowired
-    EventRepository eventRepository;
+	@Autowired
+	EventCollection eventMongoDb;
 
-    @Autowired
-    EventCollection eventMongoDb;
+	@Override
+	public List< Event > getAll()
+	{
+		return eventMongoDb.findAll();
+	}
 
-    @Override
-    public List<Event> getAll() {
-        return eventMongoDb.getAll();
-    }
+	@Override
+	public void loadDatabase()
+	{
+		eventMongoDb.deleteAll();
+		eventMongoDb.insert( getFromRepository() );
+	}
 
-    @Override
-    public void loadDatabase() {
-        eventMongoDb.clear();
-        eventMongoDb.insertAll(getFromRepository());
-    }
+	private List< Event > getFromRepository()
+	{
+		return buildEvents( eventRepository.getAll() );
+	}
 
-    private List< Event> getFromRepository() {
-        return buildEvents(eventRepository.getAll());
-    }
+	private List< Event > buildEvents( JsonNode nodes )
+	{
+		ObjectMapper	mapper	= new ObjectMapper();
+		List< Event >	list	= new ArrayList<>();
 
-    private List< Event> buildEvents(JsonNode nodes) {
-        ObjectMapper mapper = new ObjectMapper();
-        List< Event> list = new ArrayList<>();
+		try
+		{
+			for( JsonNode node : nodes )
+			{
+				Event event = mapper.readValue( node.findValue( "fields" ).toString(), Event.class );
+				event.recordid = node.get( "recordid" ).textValue();
 
-        try {
-            for (JsonNode node : nodes) {
-                Event event = mapper.readValue(node.findValue("fields").toString(), Event.class);
-                event.recordid = node.get("recordid").textValue();
+				list.add( event );
+			}
+		}
+		catch( IOException e )
+		{
+			e.printStackTrace();
+		}
 
-                list.add(event);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+		return list;
+	}
 
-        return list;
-    }
-
-    @Override
-    public void insertValue(Event event) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+	@Override
+	public void insertValue( Event event )
+	{
+		throw new UnsupportedOperationException( "Not supported yet." ); // To change body of generated methods, choose
+																			// Tools | Templates.
+	}
 
 }
