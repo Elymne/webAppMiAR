@@ -21,11 +21,11 @@ public class UserController {
     @Autowired
     UserService userService;
 
-	@PostMapping( value = "/inscription", consumes = MediaType.APPLICATION_JSON_VALUE )
-	@ResponseBody
-	@CrossOrigin( origins = "http://localhost:3000" )
-	public String inscription( @RequestBody User user ) throws IOException, JSONException {
-		Boolean result = false;
+    @PostMapping(value = "/inscription", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    @CrossOrigin(origins = "http://localhost:3000")
+    public String inscription(@RequestBody User user) throws IOException, JSONException {
+        Boolean result = false;
 
         if (userService.isValidAccountName(user.login)) {
             userService.addNewUser(user);
@@ -37,11 +37,11 @@ public class UserController {
         return json.toString();
     }
 
-	@PostMapping( value = "/connexion", consumes = MediaType.APPLICATION_JSON_VALUE )
-	@ResponseBody
-	@CrossOrigin( origins = "http://localhost:3000" )
-	public String connexion( @RequestBody User user ) throws IOException, JSONException {
-		Boolean result = false;
+    @PostMapping(value = "/connexion", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    @CrossOrigin(origins = "http://localhost:3000")
+    public String connexion(@RequestBody User user) throws IOException, JSONException {
+        Boolean result = false;
 
         if (userService.isValidAuthentification(user.login, user.password)) {
             userService.login(user);
@@ -54,7 +54,7 @@ public class UserController {
         return json.toString();
     }
 
-    @RequestMapping(value = "/deconnexion", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/deconnexion", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     @CrossOrigin(origins = "http://localhost:3000")
     public String deconnexion(@RequestBody User user) throws IOException, JSONException {
