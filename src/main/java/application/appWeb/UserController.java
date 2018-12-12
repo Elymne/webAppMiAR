@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import api.entities.User;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import domain.UserService;
 import java.util.ArrayList;
 import java.util.List;
@@ -74,6 +76,40 @@ public class UserController {
         JSONObject json = new JSONObject();
         json.put("success", result);
         json.put("idUser", user.login);
+        return json.toString();
+    }
+
+    @PostMapping(value = "/bookmarks/add", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    @CrossOrigin(origins = "http://localhost:3000")
+    public String addBookmarks(@RequestBody String payload) throws IOException, JSONException {
+        Boolean result = true;
+        ObjectMapper mapper = new ObjectMapper();
+
+        JsonNode jsonNode = mapper.readTree(payload);
+        String idEvent = jsonNode.get("eventId").asText();
+        String idUser = jsonNode.get("userId").asText();
+        userService.addBookmarks(idUser, idEvent);
+        
+        JSONObject json = new JSONObject();
+        json.put("success", result);
+        return json.toString();
+    }
+    
+    @PostMapping(value = "/bookmarks/remove", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    @CrossOrigin(origins = "http://localhost:3000")
+    public String removeBookmarks(@RequestBody String payload) throws IOException, JSONException {
+        Boolean result = true;
+        ObjectMapper mapper = new ObjectMapper();
+
+        JsonNode jsonNode = mapper.readTree(payload);
+        String idEvent = jsonNode.get("eventId").asText();
+        String idUser = jsonNode.get("userId").asText();
+        userService.removeBookmarks(idUser, idEvent);
+        
+        JSONObject json = new JSONObject();
+        json.put("success", result);
         return json.toString();
     }
 }

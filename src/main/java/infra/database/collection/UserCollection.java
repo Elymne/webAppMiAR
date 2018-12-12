@@ -63,15 +63,15 @@ public class UserCollection implements DatabaseCollection< User>, IUser {
     }
 
     @Override
-    public void addFavorite(User user, String idEvent) {
-        Bson filter = eq("login", user.login);
+    public void addFavorite(String idUser, String idEvent) {
+        Bson filter = eq("login", idUser);
         Bson query = combine(push("favoriteEvent",idEvent));
         this.userList.updateOne(filter, query);
     }
 
     @Override
-    public void removeFavorite(User user, String idEvent) {
-        Bson filter = eq("login", user.login);
+    public void removeFavorite(String idUser, String idEvent) {
+        Bson filter = eq("login", idUser);
         Bson query = combine(pull("favoriteEvent",idEvent));
         this.userList.updateOne(filter, query);
     }

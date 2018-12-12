@@ -51,6 +51,14 @@ public class UserService {
         }
         return res;
     }
+    
+    public void addBookmarks(String userId, String eventId){
+        authentification.addFavorite(userId, eventId);
+    }
+    
+    public void removeBookmarks(String userId, String eventId){
+        authentification.removeFavorite(userId, eventId);
+    }
 
     public void addNewUser(User user) {
         userQuery.insertValue(user);

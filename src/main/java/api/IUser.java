@@ -8,8 +8,8 @@ public interface IUser {
     
     void logout(User user);
     
-    void addFavorite(User user, String idEvent);
+    void addFavorite(String idUser, String idEvent);
     
-    void removeFavorite(User user, String idEvent);
+    void removeFavorite(String idUser, String idEvent);
     
 }
