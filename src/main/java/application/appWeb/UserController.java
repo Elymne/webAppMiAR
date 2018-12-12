@@ -53,6 +53,8 @@ public class UserController {
         if (userService.isValidAuthentification(user.login, user.password)) {
             userService.login(user);
             result = true;
+            
+            user = userService.getUserByName(user.login);
 
             for (String eventId : user.favoriteEvent) {
                 bookmarkList.add(eventId);
