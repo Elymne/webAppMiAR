@@ -11,6 +11,8 @@ import java.util.ArrayList;
 import java.util.List;
 import org.bson.conversions.Bson;
 import api.IUser;
+import static com.mongodb.client.model.Updates.pull;
+import static com.mongodb.client.model.Updates.push;
 
 public class UserCollection implements DatabaseCollection< User>, IUser {
 
@@ -61,12 +63,16 @@ public class UserCollection implements DatabaseCollection< User>, IUser {
     }
 
     @Override
-    public void addFavorite(String idEvent) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void addFavorite(User user, String idEvent) {
+        Bson filter = eq("login", user.login);
+        Bson query = combine(push("favoriteEvent",idEvent));
+        this.userList.updateOne(filter, query);
     }
 
     @Override
-    public void removeFavorite(String idEvent) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void removeFavorite(User user, String idEvent) {
+        Bson filter = eq("login", user.login);
+        Bson query = combine(pull("favoriteEvent",idEvent));
+        this.userList.updateOne(filter, query);
     }
 }

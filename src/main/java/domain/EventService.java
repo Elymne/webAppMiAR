@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import api.MongoDbQuery;
 import api.entities.Commentary;
+import api.entities.Evaluation;
 import api.entities.Event;
 import infra.database.MongoDatabaseClient;
 import java.io.FileInputStream;
@@ -25,6 +26,9 @@ public class EventService {
 
     @Autowired
     MongoDbQuery<Commentary> commentaryQuery;
+    
+    @Autowired
+    MongoDbQuery<Evaluation> evaluationQuery;
 
     Delta delta = new Delta();
 
@@ -112,6 +116,24 @@ public class EventService {
 
     public void charge() {
         eventQuery.loadDatabase();
+    }
+
+    public void addEvaluation(Evaluation evaluation) {
+        evaluationQuery.insertValue(evaluation);
+    }
+
+    public boolean isValidEvaluation(Evaluation evaluation) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    
+    public List<Evaluation> getAllEvaluationById(String id){
+        List< Evaluation> res = new ArrayList<>();
+        for (Evaluation evaluation : evaluationQuery.getAll()) {
+            if (evaluation.eventId.equals(id)) {
+                res.add(evaluation);
+            }
+        }
+        return res;
     }
 
 }

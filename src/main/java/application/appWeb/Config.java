@@ -23,6 +23,9 @@ import infra.repository.EventRepository;
 import infra.repository.ParkingRepository;
 import org.springframework.context.annotation.Primary;
 import api.IUser;
+import api.entities.Evaluation;
+import infra.database.collection.EvaluationCollection;
+import infra.factory.EvaluationFactory;
 
 @Configuration
 public class Config {
@@ -32,12 +35,12 @@ public class Config {
     public EventService getEventService() {
         return new EventService();
     }
-    
+
     @Bean
     public ParkingService getParkingService() {
         return new ParkingService();
     }
-    
+
     @Bean
     public UserService getUserService() {
         return new UserService();
@@ -74,6 +77,11 @@ public class Config {
     public UserCollection getUserCollection() {
         return new UserCollection();
     }
+    
+    @Bean
+    public EvaluationCollection getEvaluationCollection() {
+        return new EvaluationCollection();
+    }
 
     // Queries
     @Bean
@@ -90,12 +98,17 @@ public class Config {
     public MongoDbQuery< User> getUserMongoDbQuery() {
         return new UserFactory();
     }
-    
+
     @Bean
     public MongoDbQuery< Parking> getParkingMongoDbQuery() {
         return new ParkingFactory();
     }
-    
+
+    @Bean
+    public MongoDbQuery< Evaluation> getEvaluationMongoDbQuery() {
+        return new EvaluationFactory();
+    }
+
     @Bean
     @Primary
     public IUser getAuthentification() {

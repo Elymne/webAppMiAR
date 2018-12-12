@@ -8,9 +8,9 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import api.entities.Commentary;
+import api.entities.Evaluation;
 import api.entities.Event;
 import api.entities.EventLocation;
-import api.entities.User;
 import domain.EventService;
 import domain.UserService;
 import org.json.JSONException;
@@ -46,6 +46,13 @@ public class EventController {
         return eventService.getAllCommentaryById(id);
     }
 
+    @RequestMapping(value = "/evaluation/getByEvent/{id}")
+    @ResponseBody
+    @CrossOrigin(origins = "http://localhost:3000")
+    public List< Evaluation> getEvaluationById(@PathVariable("id") String id) {
+        return eventService.getAllEvaluationById(id);
+    }
+
     @RequestMapping(value = "/eventsByLocation", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     @CrossOrigin(origins = "http://localhost:3000")
@@ -69,6 +76,22 @@ public class EventController {
                 eventService.addNewCommentary(commentary);
                 result = true;
             }
+        }
+        JSONObject json = new JSONObject();
+        json.put("success", result);
+        return json.toString();
+    }
+
+    @RequestMapping(value = "/evaluation/add", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    @CrossOrigin(origins = "http://localhost:3000")
+    public String addEvaluation(@RequestBody String payload) throws IOException, JSONException {
+        ObjectMapper mapper = new ObjectMapper();
+        Evaluation evaluation = mapper.readValue(payload, Evaluation.class);
+        Boolean result = false;
+        if (eventService.isValidEvaluation(evaluation)) {
+            eventService.addEvaluation(evaluation);
+            result = true;
         }
         JSONObject json = new JSONObject();
         json.put("success", result);

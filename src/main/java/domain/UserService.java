@@ -63,5 +63,4 @@ public class UserService {
     public void logout(User user) {
         authentification.logout(user);
     }
-
 }
