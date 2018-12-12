@@ -75,7 +75,7 @@ public class Config
 	}
 
 	@Bean
-	public Factory< Parking > getParkingMongoDbQuery()
+	public Factory< Parking > getParkingFactory()
 	{
 		return new ParkingFactory();
 	}
