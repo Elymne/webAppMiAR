@@ -19,7 +19,9 @@ import java.util.logging.Logger;
 import org.joda.time.LocalDateTime;
 import api.ILoader;
 import api.IDatabaseCollection;
+import org.springframework.stereotype.Service;
 
+@Service
 public class EventService {
 
     @Autowired
@@ -49,7 +51,7 @@ public class EventService {
         }
 
         try {
-            input = new FileInputStream("src/main/resources/application.properties");
+            input = new FileInputStream("BOOT-INF/classes/application.properties");
             prop.load(input);
 
             for (Event event : eventQuery.getAll()) {

@@ -7,7 +7,9 @@ import api.ILoader;
 import api.IDatabaseCollection;
 import api.entities.Event;
 import java.util.ArrayList;
+import org.springframework.stereotype.Service;
 
+@Service
 public class ParkingService {
 
     @Autowired
