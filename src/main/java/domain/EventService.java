@@ -19,6 +19,7 @@ import java.util.logging.Logger;
 import org.joda.time.LocalDateTime;
 import api.ILoader;
 import api.IDatabaseCollection;
+import ch.qos.logback.classic.gaffer.PropertyUtil;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -41,6 +42,7 @@ public class EventService {
     public List< Event> getAllEvents() {
         final Properties prop = new Properties();
         InputStream input = null;
+        InputStream inputStream = null;
 
         List<Event> res = new ArrayList<>();
         LocalDateTime date = new LocalDateTime();
@@ -51,7 +53,8 @@ public class EventService {
         }
 
         try {
-            input = new FileInputStream("BOOT-INF/classes/");
+            inputStream = PropertyUtil.class.getResourceAsStream("src/main/resources/application.properties");
+            input = new FileInputStream("src/main/resources/application.properties");
             prop.load(input);
 
             for (Event event : eventQuery.getAll()) {

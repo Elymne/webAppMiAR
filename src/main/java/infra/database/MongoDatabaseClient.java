@@ -1,5 +1,6 @@
 package infra.database;
 
+import ch.qos.logback.classic.gaffer.PropertyUtil;
 import org.bson.codecs.configuration.CodecProvider;
 import org.bson.codecs.configuration.CodecRegistries;
 import org.bson.codecs.configuration.CodecRegistry;
@@ -27,6 +28,7 @@ public class MongoDatabaseClient {
 
         final Properties prop = new Properties();
         InputStream input = null;
+        InputStream inputStream = null;
 
         CodecProvider pojoCodecProvider = PojoCodecProvider.builder().register("api.entities").build();
 
@@ -37,7 +39,8 @@ public class MongoDatabaseClient {
 
         try {
             
-            input = new FileInputStream("BOOT-INF/classes/");
+            inputStream = PropertyUtil.class.getResourceAsStream("src/main/resources/application.properties");
+            input = new FileInputStream("src/main/resources/application.properties");
             prop.load(input);
 
             this.client = new MongoClient(new ServerAddress(prop.getProperty("database.host"), Integer.valueOf(prop.getProperty("database.port"))), options);
