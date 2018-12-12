@@ -11,7 +11,9 @@ import api.entities.Commentary;
 import api.entities.Event;
 import api.entities.Parking;
 import api.entities.User;
+import domain.CommentaryService;
 import domain.EventService;
+import domain.MarksService;
 import domain.ParkingService;
 import domain.UserService;
 import infra.factory.CommentaryFactory;
@@ -43,6 +45,18 @@ public class Config
 	public UserService getUserService()
 	{
 		return new UserService();
+	}
+
+	@Bean
+	public MarksService getMarksService()
+	{
+		return new MarksService();
+	}
+
+	@Bean
+	CommentaryService getCommentaryService()
+	{
+		return new CommentaryService();
 	}
 
 	// Repositories

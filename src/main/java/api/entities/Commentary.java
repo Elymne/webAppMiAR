@@ -1,8 +1,8 @@
 package api.entities;
 
-public class Commentary {
-
-    public String message;
-    public String idUser;
-    public String idEvent;
+public class Commentary
+{
+	public String	recordid;
+	public String	userid;
+	public String	message;
 }
