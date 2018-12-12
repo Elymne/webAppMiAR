@@ -1,5 +1,6 @@
 package application.appWeb;
 
+import api.entities.Event;
 import java.io.IOException;
 
 import org.json.JSONException;
@@ -14,6 +15,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import api.entities.User;
 import domain.UserService;
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 public class UserController {
@@ -42,15 +45,21 @@ public class UserController {
     @CrossOrigin(origins = "http://localhost:3000")
     public String connexion(@RequestBody User user) throws IOException, JSONException {
         Boolean result = false;
+        List<String> bookmarkList = new ArrayList<>();
+        JSONObject json = new JSONObject();
 
         if (userService.isValidAuthentification(user.login, user.password)) {
             userService.login(user);
             result = true;
+
+            for (Event event : user.favoriteEvent) {
+                bookmarkList.add(event.recordid);
+            }
         }
 
-        JSONObject json = new JSONObject();
         json.put("success", result);
         json.put("idUser", user.login);
+        json.put("bookmarks", bookmarkList);
         return json.toString();
     }
 
@@ -67,5 +76,4 @@ public class UserController {
         json.put("idUser", user.login);
         return json.toString();
     }
-
 }
