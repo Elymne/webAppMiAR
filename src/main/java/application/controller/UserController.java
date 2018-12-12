@@ -44,7 +44,6 @@ public class UserController
 	@CrossOrigin( origins = "http://localhost:3000" )
 	public String signin( @RequestBody User user ) throws IOException, JSONException
 	{
-		System.out.println( "/signin" );
 		Boolean valid = userService.isValidAuthentification( user.login, user.password );
 
 		if( valid )
@@ -60,10 +59,8 @@ public class UserController
 	@CrossOrigin( origins = "http://localhost:3000" )
 	public String singout( @RequestBody User user ) throws IOException, JSONException
 	{
-		System.out.println( "/signout" );
 		Boolean valid = userService.isValidAuthentification( user.login, user.password );
 
-		System.out.println( user.login + " " + user.password );
 		if( valid )
 			userService.logout( user );
 
