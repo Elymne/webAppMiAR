@@ -1,6 +1,5 @@
 package infra.database.collection;
 
-import api.DatabaseCollection;
 import api.entities.User;
 import com.mongodb.client.MongoCollection;
 import static com.mongodb.client.model.Filters.eq;
@@ -13,8 +12,9 @@ import org.bson.conversions.Bson;
 import api.IUser;
 import static com.mongodb.client.model.Updates.pull;
 import static com.mongodb.client.model.Updates.push;
+import api.IDatabaseCollection;
 
-public class UserCollection implements DatabaseCollection<User>, IUser {
+public class UserCollection implements IDatabaseCollection<User>, IUser {
 
     MongoDatabaseClient mongoDatabaseClient = MongoDatabaseClient.getInstance();
 

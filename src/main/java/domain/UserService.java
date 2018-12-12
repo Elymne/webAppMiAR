@@ -1,15 +1,15 @@
 package domain;
 
-import api.DatabaseCollection;
 import api.entities.User;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import api.IUser;
+import api.IDatabaseCollection;
 
 public class UserService {
 
     @Autowired
-    DatabaseCollection<User> userQuery;
+    IDatabaseCollection<User> userQuery;
 
     @Autowired
     IUser authentification;

@@ -2,7 +2,7 @@ package api;
 
 import java.util.List;
 
-public interface DatabaseCollection< T> {
+public interface IDatabaseCollection< T> {
 
     public void clear();
 

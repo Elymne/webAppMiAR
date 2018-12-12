@@ -1,13 +1,13 @@
 package infra.database.collection;
 
-import api.DatabaseCollection;
 import api.entities.Evaluation;
 import com.mongodb.client.MongoCollection;
 import infra.database.MongoDatabaseClient;
 import java.util.ArrayList;
 import java.util.List;
+import api.IDatabaseCollection;
 
-public class EvaluationCollection implements DatabaseCollection<Evaluation> {
+public class EvaluationCollection implements IDatabaseCollection<Evaluation> {
 
     MongoDatabaseClient mongoDatabaseClient = MongoDatabaseClient.getInstance();
 

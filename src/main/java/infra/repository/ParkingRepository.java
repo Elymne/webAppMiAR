@@ -4,9 +4,9 @@ import org.springframework.web.client.RestTemplate;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
-import api.Repository;
+import api.IRepository;
 
-public class ParkingRepository implements Repository {
+public class ParkingRepository implements IRepository {
 
     @Override
     public JsonNode getAll() {

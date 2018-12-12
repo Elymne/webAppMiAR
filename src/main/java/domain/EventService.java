@@ -1,6 +1,5 @@
 package domain;
 
-import api.DatabaseCollection;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,6 +18,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.joda.time.LocalDateTime;
 import api.ILoader;
+import api.IDatabaseCollection;
 
 public class EventService {
 
@@ -26,13 +26,13 @@ public class EventService {
     ILoader<Event> eventLoader;
     
     @Autowired
-    DatabaseCollection<Event> eventQuery;
+    IDatabaseCollection<Event> eventQuery;
 
     @Autowired
-    DatabaseCollection<Commentary> commentaryQuery;
+    IDatabaseCollection<Commentary> commentaryQuery;
 
     @Autowired
-    DatabaseCollection<Evaluation> evaluationQuery;
+    IDatabaseCollection<Evaluation> evaluationQuery;
     
     
 

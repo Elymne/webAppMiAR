@@ -54,8 +54,8 @@ public class UserController {
             userService.login(user);
             result = true;
 
-            for (Event event : user.favoriteEvent) {
-                bookmarkList.add(event.recordid);
+            for (String eventId : user.favoriteEvent) {
+                bookmarkList.add(eventId);
             }
         }
 

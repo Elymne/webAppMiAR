@@ -5,11 +5,11 @@ import java.util.List;
 
 import com.mongodb.client.MongoCollection;
 
-import api.DatabaseCollection;
 import api.entities.Commentary;
 import infra.database.MongoDatabaseClient;
+import api.IDatabaseCollection;
 
-public class CommentaryCollection implements DatabaseCollection<Commentary> {
+public class CommentaryCollection implements IDatabaseCollection<Commentary> {
 
     MongoDatabaseClient mongoDatabaseClient = MongoDatabaseClient.getInstance();
 

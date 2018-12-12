@@ -5,11 +5,11 @@ import java.util.List;
 
 import com.mongodb.client.MongoCollection;
 
-import api.DatabaseCollection;
 import api.entities.Event;
 import infra.database.MongoDatabaseClient;
+import api.IDatabaseCollection;
 
-public class EventCollection implements DatabaseCollection< Event> {
+public class EventCollection implements IDatabaseCollection< Event> {
 
     MongoDatabaseClient mongoDatabaseClient = MongoDatabaseClient.getInstance();
 

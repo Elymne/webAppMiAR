@@ -10,5 +10,5 @@ public class User {
     public String login;
     public String password;
     public boolean connected = false;
-    public List<Event> favoriteEvent = new ArrayList<>();
+    public List<String> favoriteEvent = new ArrayList<>();
 }
