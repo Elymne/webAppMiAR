@@ -51,7 +51,7 @@ public class EventService {
         }
 
         try {
-            input = new FileInputStream("BOOT-INF/classes/application.properties");
+            input = new FileInputStream("BOOT-INF/classes/");
             prop.load(input);
 
             for (Event event : eventQuery.getAll()) {
