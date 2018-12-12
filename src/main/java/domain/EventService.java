@@ -1,11 +1,11 @@
 package domain;
 
+import api.DatabaseCollection;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import api.MongoDbQuery;
 import api.entities.Commentary;
 import api.entities.Evaluation;
 import api.entities.Event;
@@ -18,17 +18,23 @@ import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.joda.time.LocalDateTime;
+import api.ILoader;
 
 public class EventService {
 
     @Autowired
-    MongoDbQuery<Event> eventQuery;
+    ILoader<Event> eventLoader;
+    
+    @Autowired
+    DatabaseCollection<Event> eventQuery;
 
     @Autowired
-    MongoDbQuery<Commentary> commentaryQuery;
+    DatabaseCollection<Commentary> commentaryQuery;
 
     @Autowired
-    MongoDbQuery<Evaluation> evaluationQuery;
+    DatabaseCollection<Evaluation> evaluationQuery;
+    
+    
 
     Delta delta = new Delta();
 
@@ -41,7 +47,7 @@ public class EventService {
         String[] parts = null;
         int year, month, day;
         if (eventQuery.getAll().isEmpty()) {
-            eventQuery.loadDatabase();
+            eventLoader.loadDatabase();
         }
 
         try {
@@ -111,15 +117,15 @@ public class EventService {
     }
 
     public void addNewCommentary(Commentary commentary) {
-        commentaryQuery.insertValue(commentary);
+        commentaryQuery.insert(commentary);
     }
 
     public void charge() {
-        eventQuery.loadDatabase();
+        eventLoader.loadDatabase();
     }
 
     public void addEvaluation(Evaluation evaluation) {
-        evaluationQuery.insertValue(evaluation);
+        evaluationQuery.insert(evaluation);
     }
 
     public boolean isValidEvaluation(Evaluation evaluation) {

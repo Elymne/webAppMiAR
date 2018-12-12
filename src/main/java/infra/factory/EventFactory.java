@@ -9,12 +9,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import api.MongoDbQuery;
 import api.entities.Event;
 import infra.database.collection.EventCollection;
 import infra.repository.EventRepository;
+import api.ILoader;
 
-public class EventFactory implements MongoDbQuery<Event> {
+public class EventFactory implements ILoader<Event> {
 
     @Autowired
     EventRepository eventRepository;
@@ -23,17 +23,12 @@ public class EventFactory implements MongoDbQuery<Event> {
     EventCollection eventMongoDb;
 
     @Override
-    public List<Event> getAll() {
-        return eventMongoDb.getAll();
-    }
-
-    @Override
     public void loadDatabase() {
         eventMongoDb.clear();
         eventMongoDb.insertAll(getFromRepository());
     }
 
-    private List< Event> getFromRepository() {
+    private List<Event> getFromRepository() {
         return buildEvents(eventRepository.getAll());
     }
 
@@ -53,11 +48,6 @@ public class EventFactory implements MongoDbQuery<Event> {
         }
 
         return list;
-    }
-
-    @Override
-    public void insertValue(Event event) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }

@@ -14,7 +14,7 @@ import api.IUser;
 import static com.mongodb.client.model.Updates.pull;
 import static com.mongodb.client.model.Updates.push;
 
-public class UserCollection implements DatabaseCollection< User>, IUser {
+public class UserCollection implements DatabaseCollection<User>, IUser {
 
     MongoDatabaseClient mongoDatabaseClient = MongoDatabaseClient.getInstance();
 

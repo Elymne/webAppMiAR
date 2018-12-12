@@ -1,6 +1,6 @@
 package domain;
 
-import api.MongoDbQuery;
+import api.DatabaseCollection;
 import api.entities.User;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +9,7 @@ import api.IUser;
 public class UserService {
 
     @Autowired
-    MongoDbQuery<User> userQuery;
+    DatabaseCollection<User> userQuery;
 
     @Autowired
     IUser authentification;
@@ -61,7 +61,7 @@ public class UserService {
     }
 
     public void addNewUser(User user) {
-        userQuery.insertValue(user);
+        userQuery.insert(user);
     }
 
     public void login(User user) {

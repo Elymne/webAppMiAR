@@ -9,25 +9,27 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import api.MongoDbQuery;
 import api.entities.Parking;
 import infra.database.collection.ParkingCollection;
 import infra.repository.ParkingRepository;
+import api.ILoader;
 
-public class ParkingFactory implements MongoDbQuery< Parking> {
-
-    @Autowired
-    ParkingRepository repository;
+public class ParkingFactory implements ILoader< Parking> {
 
     @Autowired
-    ParkingCollection collection;
+    ParkingRepository parkingRepository;
+
+    @Autowired
+    ParkingCollection parkingMongoDb;
 
     @Override
-    public List< Parking> getAll() {
-        collection.clear();
-        collection.insertAll(buildEvents(repository.getAll()));
+    public void loadDatabase() {
+        parkingMongoDb.clear();
+        parkingMongoDb.insertAll(getFromRepository());
+    }
 
-        return collection.getAll();
+    private List<Parking> getFromRepository() {
+        return buildEvents(parkingRepository.getAll());
     }
 
     private List< Parking> buildEvents(JsonNode nodes) {
@@ -45,13 +47,4 @@ public class ParkingFactory implements MongoDbQuery< Parking> {
         return list;
     }
 
-    @Override
-    public void loadDatabase() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void insertValue(Parking object) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
 }

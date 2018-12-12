@@ -3,11 +3,8 @@ package application.appWeb;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import api.MongoDbQuery;
-import api.entities.Commentary;
 import api.entities.Event;
 import api.entities.Parking;
-import api.entities.User;
 import domain.EventService;
 import domain.ParkingService;
 import domain.UserService;
@@ -15,17 +12,14 @@ import infra.database.collection.CommentaryCollection;
 import infra.database.collection.EventCollection;
 import infra.database.collection.ParkingCollection;
 import infra.database.collection.UserCollection;
-import infra.factory.CommentaryFactory;
 import infra.factory.EventFactory;
 import infra.factory.ParkingFactory;
-import infra.factory.UserFactory;
 import infra.repository.EventRepository;
 import infra.repository.ParkingRepository;
 import org.springframework.context.annotation.Primary;
 import api.IUser;
-import api.entities.Evaluation;
 import infra.database.collection.EvaluationCollection;
-import infra.factory.EvaluationFactory;
+import api.ILoader;
 
 @Configuration
 public class Config {
@@ -83,31 +77,19 @@ public class Config {
         return new EvaluationCollection();
     }
 
-    // Queries
+    // Factory
     @Bean
-    public MongoDbQuery< Event> getEventMongoDbQuery() {
+    public ILoader< Event> getEventMongoDbQuery() {
         return new EventFactory();
     }
 
     @Bean
-    public MongoDbQuery< Commentary> getCommentaryMongoDbQuery() {
-        return new CommentaryFactory();
-    }
-
-    @Bean
-    public MongoDbQuery< User> getUserMongoDbQuery() {
-        return new UserFactory();
-    }
-
-    @Bean
-    public MongoDbQuery< Parking> getParkingMongoDbQuery() {
+    public ILoader< Parking> getParkingMongoDbQuery() {
         return new ParkingFactory();
     }
-
-    @Bean
-    public MongoDbQuery< Evaluation> getEvaluationMongoDbQuery() {
-        return new EvaluationFactory();
-    }
+    
+    
+    //Authentification
 
     @Bean
     @Primary
