@@ -21,7 +21,7 @@ public class UserController {
     @Autowired
     UserService userService;
 
-    @PostMapping(value = "/inscription", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/user/register", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     @CrossOrigin(origins = "http://localhost:3000")
     public String inscription(@RequestBody User user) throws IOException, JSONException {
@@ -37,7 +37,7 @@ public class UserController {
         return json.toString();
     }
 
-    @PostMapping(value = "/connexion", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/user/signin", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     @CrossOrigin(origins = "http://localhost:3000")
     public String connexion(@RequestBody User user) throws IOException, JSONException {
@@ -54,7 +54,7 @@ public class UserController {
         return json.toString();
     }
 
-    @PostMapping(value = "/deconnexion", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/user/signout", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     @CrossOrigin(origins = "http://localhost:3000")
     public String deconnexion(@RequestBody User user) throws IOException, JSONException {

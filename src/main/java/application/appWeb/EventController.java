@@ -25,7 +25,7 @@ public class EventController {
     @Autowired
     UserService userService;
 
-    @GetMapping("/evenement/tous")
+    @GetMapping("/evenement/all")
     @ResponseBody
     @CrossOrigin(origins = "http://localhost:3000")
     public List< Event> getAllEvents() {
@@ -39,7 +39,7 @@ public class EventController {
         return eventService.getEventById(id);
     }
 
-    @RequestMapping(value = "/commentaire/{id}")
+    @RequestMapping(value = "/commentary/getByEvent/{id}")
     @ResponseBody
     @CrossOrigin(origins = "http://localhost:3000")
     public List< Commentary> getCommentaryById(@PathVariable("id") String id) {
@@ -57,7 +57,7 @@ public class EventController {
         return eventService.getEventByLocalisation(location.latitude, location.longitude, location.radius);
     }
 
-    @RequestMapping(value = "/commentaire/ajout", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/commentary/add", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     @CrossOrigin(origins = "http://localhost:3000")
     public String addCommentary(@RequestBody String payload) throws IOException, JSONException {
