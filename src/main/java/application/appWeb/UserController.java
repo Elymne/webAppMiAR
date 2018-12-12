@@ -1,6 +1,5 @@
 package application.appWeb;
 
-import api.entities.Event;
 import java.io.IOException;
 
 import org.json.JSONException;
@@ -53,6 +52,7 @@ public class UserController {
         if (userService.isValidAuthentification(user.login, user.password)) {
             userService.login(user);
             result = true;
+            user = userService.getUserByName(user.login);
             
             user = userService.getUserByName(user.login);
 
