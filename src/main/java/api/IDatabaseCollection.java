@@ -1,9 +1,7 @@
 package api;
 
 import java.util.List;
-import org.springframework.stereotype.Service;
 
-@Service
 public interface IDatabaseCollection< T> {
 
     public void clear();

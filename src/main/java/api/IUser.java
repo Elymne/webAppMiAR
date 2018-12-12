@@ -1,9 +1,7 @@
 package api;
 
 import api.entities.User;
-import org.springframework.stereotype.Service;
 
-@Service
 public interface IUser {
     
     void login(User user);
