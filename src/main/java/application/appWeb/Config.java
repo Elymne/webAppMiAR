@@ -94,25 +94,4 @@ public class Config {
     public IUser getAuthentification() {
         return new UserCollection();
     }
-    
-    @Bean
-    public EventController getEventController(){
-        return new EventController();
-    }
-    
-    @Bean
-    public HomeController getHomeController(){
-        return new HomeController();
-    }
-    
-    @Bean
-    public ParkingController getParkingController(){
-        return new ParkingController();
-    }
-    
-    @Bean
-    public UserController getUserController(){
-        return new UserController();
-    }
-
 }
