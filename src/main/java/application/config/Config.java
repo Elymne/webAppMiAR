@@ -6,20 +6,15 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
 import org.springframework.scheduling.annotation.EnableScheduling;
 
 import api.Factory;
-import api.MongoDbQuery;
-import api.entities.Commentary;
 import api.entities.Event;
 import api.entities.Parking;
-import api.entities.User;
 import domain.CommentaryService;
 import domain.EventService;
 import domain.MarksService;
 import domain.ParkingService;
 import domain.UserService;
-import infra.factory.CommentaryFactory;
 import infra.factory.EventFactory;
 import infra.factory.ParkingFactory;
-import infra.factory.UserFactory;
 import infra.repository.EventRepository;
 import infra.repository.ParkingRepository;
 
@@ -84,19 +79,4 @@ public class Config
 	{
 		return new ParkingFactory();
 	}
-
-	// Queries
-
-	@Bean
-	public MongoDbQuery< Commentary > getCommentaryMongoDbQuery()
-	{
-		return new CommentaryFactory();
-	}
-
-	@Bean
-	public MongoDbQuery< User > getUserMongoDbQuery()
-	{
-		return new UserFactory();
-	}
-
 }

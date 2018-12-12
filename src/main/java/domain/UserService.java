@@ -4,24 +4,17 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import api.MongoDbQuery;
 import api.entities.User;
 import infra.database.collection.UserCollection;
 
 public class UserService
 {
 	@Autowired
-	MongoDbQuery< User > userQuery;
-
-	// @Autowired
-	// Authentification authentification;
-
-	@Autowired
 	UserCollection collection;
 
 	public List< User > getAll()
 	{
-		return userQuery.getAll();
+		return collection.findAll();
 	}
 
 	public User getUserByLogin( String login )
