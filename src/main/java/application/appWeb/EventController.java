@@ -49,8 +49,8 @@ public class EventController {
     @RequestMapping(value = "/evaluation/getByEvent/{id}")
     @ResponseBody
     @CrossOrigin(origins = "http://localhost:3000")
-    public List< Evaluation> getEvaluationById(@PathVariable("id") String id) {
-        return eventService.getAllEvaluationById(id);
+    public Double getEvaluationById(@PathVariable("id") String id) {
+        return eventService.getAverageEvaluation(id);
     }
 
     @RequestMapping(value = "/eventsByLocation", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)

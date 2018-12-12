@@ -26,7 +26,7 @@ public class EventService {
 
     @Autowired
     MongoDbQuery<Commentary> commentaryQuery;
-    
+
     @Autowired
     MongoDbQuery<Evaluation> evaluationQuery;
 
@@ -123,17 +123,34 @@ public class EventService {
     }
 
     public boolean isValidEvaluation(Evaluation evaluation) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        boolean res = false;
+        if (evaluation.evaluation >= 0 || evaluation.evaluation < 5) {
+            res = true;
+        }
+        for (Evaluation evaluationTest : getEvaluationByEventId(evaluation.eventId)) {
+            if (evaluationTest.userId.equals(evaluation.userId)) {
+                res = false;
+            }
+        }
+        return res;
     }
-    
-    public List<Evaluation> getAllEvaluationById(String id){
-        List< Evaluation> res = new ArrayList<>();
+
+    public List<Evaluation> getEvaluationByEventId(String id) {
+        List<Evaluation> res = new ArrayList<>();
         for (Evaluation evaluation : evaluationQuery.getAll()) {
             if (evaluation.eventId.equals(id)) {
                 res.add(evaluation);
             }
         }
         return res;
+    }
+
+    public double getAverageEvaluation(String id) {
+        double average = 0;
+        for (Evaluation evaluation : getEvaluationByEventId(id)) {
+            average += evaluation.evaluation;
+        }
+        return average / getEvaluationByEventId(id).size();
     }
 
 }
