@@ -1,17 +1,21 @@
 package domain;
 
-import api.MongoDbQuery;
-import api.entities.Parking;
 import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
-public class ParkingService {
+import api.entities.Parking;
+import infra.database.collection.ParkingCollection;
 
-    @Autowired
-    MongoDbQuery<Parking> parkingQuery;
+public class ParkingService
+{
 
-    public List< Parking> getAllParkings() {
-        return parkingQuery.getAll();
-    }
+	@Autowired
+	ParkingCollection collection;
+
+	public List< Parking > getAllParkings()
+	{
+		return collection.findAll();
+	}
 
 }
