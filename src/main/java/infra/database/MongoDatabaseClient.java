@@ -36,7 +36,7 @@ public class MongoDatabaseClient {
         MongoClientOptions options = MongoClientOptions.builder().codecRegistry(codecRegistry).build();
 
         try {
-            input = new FileInputStream("src/main/resources/application.properties");
+            input = new FileInputStream("BOOT-INF/classes/application.properties");
             prop.load(input);
 
             this.client = new MongoClient(new ServerAddress(prop.getProperty("database.host"), Integer.valueOf(prop.getProperty("database.port"))), options);
