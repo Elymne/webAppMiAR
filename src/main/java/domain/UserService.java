@@ -56,6 +56,9 @@ public class UserService
 	public void login( User requestingUser )
 	{
 		User user = collection.findByLogin( requestingUser.login );
+		System.out.println( "login" );
+		System.out.println( user );
+		System.out.println( user.login );
 		user.connected = true;
 
 		collection.save( user );
@@ -64,6 +67,9 @@ public class UserService
 	public void logout( User requestingUser )
 	{
 		User user = collection.findByLogin( requestingUser.login );
+		System.out.println( "logout" );
+		System.out.println( user );
+		System.out.println( user.login );
 		user.connected = false;
 
 		collection.save( user );

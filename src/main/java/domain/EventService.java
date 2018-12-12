@@ -29,7 +29,6 @@ public class EventService
 	@Scheduled( fixedRate = ( 1000 * 60 * 60 * 24 ) ) // Scheduled for once a day.
 	public void update()
 	{
-		// System.out.println( "update!" );
 		collection.saveAll( factory.build( repository.getAll() ) );
 	}
 
