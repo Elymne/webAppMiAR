@@ -25,9 +25,4 @@ public class HomeController {
         }
         return "greeting";
     }
-
-    @RequestMapping(value = "/")
-    public String index() {
-        return "index";
-    }
 }
