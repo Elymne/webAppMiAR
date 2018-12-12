@@ -63,10 +63,8 @@ public class EventController {
     public String addCommentary(@RequestBody String payload) throws IOException, JSONException {
         ObjectMapper mapper = new ObjectMapper();
         Commentary commentary = mapper.readValue(payload, Commentary.class);
-        User user = mapper.readValue(payload, User.class);
         Boolean result = false;
-
-        if (userService.getUserByName(user.login).connected) {
+        if (userService.getUserByName(commentary.idUser).connected) {
             if (eventService.isValidCommentary(commentary.message)) {
                 eventService.addNewCommentary(commentary);
                 result = true;
