@@ -60,6 +60,7 @@ public class UserController
 	public String singout( @RequestBody User user ) throws IOException, JSONException
 	{
 		Boolean valid = userService.isValidAuthentification( user.login, user.password );
+		System.out.println( "logout " + user.login + " : " + user.password + " : " + valid ); // JE NE RECOIS RIEN?
 
 		if( valid )
 			userService.logout( user );
