@@ -40,8 +40,8 @@ public class MongoDatabaseClient {
         try {
             
             inputStream = PropertyUtil.class.getResourceAsStream("src/main/resources/application.properties");
-            input = new FileInputStream("src/main/resources/application.properties");
-            prop.load(input);
+            //input = new FileInputStream("src/main/resources/application.properties");
+            prop.load(inputStream);
 
             this.client = new MongoClient(new ServerAddress(prop.getProperty("database.host"), Integer.valueOf(prop.getProperty("database.port"))), options);
             this.root = this.client.getDatabase(prop.getProperty("database.name"));
