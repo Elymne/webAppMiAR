@@ -26,6 +26,11 @@ public class UserFactory implements MongoDbQuery<User> {
         this.userMongoDb.insert(user);
     }
 
+    @Override
+    public void loadDatabase() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
     private User buildUser(JsonNode node) {
         ObjectMapper mapper = new ObjectMapper();
         User res = null;
@@ -37,10 +42,5 @@ public class UserFactory implements MongoDbQuery<User> {
         }
 
         return res;
-    }
-
-    @Override
-    public void loadDatabase() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

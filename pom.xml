@@ -6,7 +6,6 @@
     <groupId>application</groupId>
     <artifactId>appWeb</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <packaging>war</packaging>
 
     <name>appWeb</name>
     <description>Demo project for Spring Boot</description>

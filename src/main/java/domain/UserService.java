@@ -1,10 +1,10 @@
 package domain;
 
-import api.Authentification;
 import api.MongoDbQuery;
 import api.entities.User;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import api.IUser;
 
 public class UserService {
 
@@ -12,7 +12,7 @@ public class UserService {
     MongoDbQuery<User> userQuery;
 
     @Autowired
-    Authentification authentification;
+    IUser authentification;
 
     public List< User> getAllUser() {
         return userQuery.getAll();

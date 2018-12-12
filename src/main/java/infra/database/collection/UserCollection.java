@@ -1,6 +1,5 @@
 package infra.database.collection;
 
-import api.Authentification;
 import api.DatabaseCollection;
 import api.entities.User;
 import com.mongodb.client.MongoCollection;
@@ -11,8 +10,9 @@ import infra.database.MongoDatabaseClient;
 import java.util.ArrayList;
 import java.util.List;
 import org.bson.conversions.Bson;
+import api.IUser;
 
-public class UserCollection implements DatabaseCollection< User>, Authentification {
+public class UserCollection implements DatabaseCollection< User>, IUser {
 
     MongoDatabaseClient mongoDatabaseClient = MongoDatabaseClient.getInstance();
 
@@ -58,5 +58,15 @@ public class UserCollection implements DatabaseCollection< User>, Authentificati
 
         return res;
 
+    }
+
+    @Override
+    public void addFavorite(String idEvent) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void removeFavorite(String idEvent) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

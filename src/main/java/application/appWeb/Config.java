@@ -1,6 +1,5 @@
 package application.appWeb;
 
-import api.Authentification;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -23,6 +22,7 @@ import infra.factory.UserFactory;
 import infra.repository.EventRepository;
 import infra.repository.ParkingRepository;
 import org.springframework.context.annotation.Primary;
+import api.IUser;
 
 @Configuration
 public class Config {
@@ -98,7 +98,7 @@ public class Config {
     
     @Bean
     @Primary
-    public Authentification getAuthentification() {
+    public IUser getAuthentification() {
         return new UserCollection();
     }
 
