@@ -51,6 +51,7 @@ public class UserController
 
 		JSONObject json = new JSONObject();
 		json.put( "success", valid );
+		json.put( "idUser", user.login );
 		return json.toString();
 	}
 
@@ -59,14 +60,11 @@ public class UserController
 	@CrossOrigin( origins = "http://localhost:3000" )
 	public String singout( @RequestBody User user ) throws IOException, JSONException
 	{
-		Boolean valid = userService.isValidAuthentification( user.login, user.password );
-		System.out.println( "logout " + user.login + " : " + user.password + " : " + valid ); // JE NE RECOIS RIEN?
-
-		if( valid )
-			userService.logout( user );
+		userService.logout( user );
 
 		JSONObject json = new JSONObject();
-		json.put( "success", valid );
+		json.put( "success", true );
+		json.put( "idUser", user.login );
 		return json.toString();
 	}
 
