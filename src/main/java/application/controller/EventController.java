@@ -55,6 +55,7 @@ public class EventController
 	@CrossOrigin( origins = "http://localhost:3000" )
 	public List< Event > getEventByLocation( @RequestBody EventLocation location ) throws IOException
 	{
+		System.out.println( location.latitude + " " + location.longitude + " " + location.radius );
 		return eventService.findWithin( location.latitude, location.longitude, location.radius );
 	}
 
