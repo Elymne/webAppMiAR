@@ -128,7 +128,7 @@ public class EventService {
 
     public boolean isValidEvaluation(Evaluation evaluation) {
         boolean res = false;
-        if (evaluation.evaluation >= 0 || evaluation.evaluation < 5) {
+        if (evaluation.evaluation >= 1 || evaluation.evaluation <= 5) {
             res = true;
         }
         for (Evaluation evaluationTest : getEvaluationByEventId(evaluation.eventId)) {
