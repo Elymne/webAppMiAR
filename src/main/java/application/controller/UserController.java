@@ -39,13 +39,33 @@ public class UserController
 		return json.toString();
 	}
 
-	@PostMapping( value = "/connect", consumes = MediaType.APPLICATION_JSON_VALUE )
+	@PostMapping( value = "/signin", consumes = MediaType.APPLICATION_JSON_VALUE )
 	@ResponseBody
 	@CrossOrigin( origins = "http://localhost:3000" )
-	public String connexion( @RequestBody User user ) throws IOException, JSONException
+	public String signin( @RequestBody User user ) throws IOException, JSONException
 	{
+		Boolean valid = userService.isValidAuthentification( user.login, user.password );
+
+		if( valid )
+			userService.login( user );
+
 		JSONObject json = new JSONObject();
-		json.put( "success", userService.isValidAuthentification( user.login, user.password ) );
+		json.put( "success", valid );
+		return json.toString();
+	}
+
+	@PostMapping( value = "/signout", consumes = MediaType.APPLICATION_JSON_VALUE )
+	@ResponseBody
+	@CrossOrigin( origins = "http://localhost:3000" )
+	public String singout( @RequestBody User user ) throws IOException, JSONException
+	{
+		Boolean valid = userService.isValidAuthentification( user.login, user.password );
+
+		if( valid )
+			userService.logout( user );
+
+		JSONObject json = new JSONObject();
+		json.put( "success", valid );
 		return json.toString();
 	}
 
