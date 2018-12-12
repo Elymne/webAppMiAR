@@ -24,7 +24,7 @@ public class EventService {
 
     @Autowired
     ILoader<Event> eventLoader;
-    
+
     @Autowired
     IDatabaseCollection<Event> eventQuery;
 
@@ -33,8 +33,6 @@ public class EventService {
 
     @Autowired
     IDatabaseCollection<Evaluation> evaluationQuery;
-    
-    
 
     Delta delta = new Delta();
 
@@ -153,10 +151,14 @@ public class EventService {
 
     public double getAverageEvaluation(String id) {
         double average = 0;
-        for (Evaluation evaluation : getEvaluationByEventId(id)) {
-            average += evaluation.evaluation;
+
+        if (getEvaluationByEventId(id).size() > 0) {
+            for (Evaluation evaluation : getEvaluationByEventId(id)) {
+                average += evaluation.evaluation;
+            }
+            average = average / getEvaluationByEventId(id).size();
         }
-        return average / getEvaluationByEventId(id).size();
+        return average;
     }
 
 }

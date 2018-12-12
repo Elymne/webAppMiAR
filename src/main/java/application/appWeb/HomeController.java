@@ -7,15 +7,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import api.entities.Event;
 import domain.EventService;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-public class HomeController
-{
+public class HomeController {
 
-	@Autowired
-	EventService service;
-
-	// Ne pas supprimer le fichier (pour le moment)
+    @Autowired
+    EventService service;
 
     @GetMapping("/greeting")
     public String greeting(Event event, Model model) {
@@ -26,5 +24,10 @@ public class HomeController
             model.addAttribute("event", "ERREUR");
         }
         return "greeting";
+    }
+
+    @RequestMapping(value = "/")
+    public String index() {
+        return "index";
     }
 }
