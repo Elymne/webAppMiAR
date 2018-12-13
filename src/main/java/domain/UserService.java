@@ -55,6 +55,10 @@ public class UserService
 	public void login( User requestingUser )
 	{
 		User user = collection.findByLogin( requestingUser.login );
+
+		if( user == null )
+			return;
+
 		user.connected = true;
 
 		collection.save( user );
@@ -63,6 +67,10 @@ public class UserService
 	public void logout( User requestingUser )
 	{
 		User user = collection.findByLogin( requestingUser.login );
+
+		if( user == null )
+			return;
+
 		user.connected = false;
 
 		collection.save( user );
