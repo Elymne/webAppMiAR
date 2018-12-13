@@ -1,6 +1,7 @@
 package application.controller;
 
 import java.io.IOException;
+import java.util.List;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -22,17 +23,17 @@ public class UserController
 {
 
 	@Autowired
-	UserService userService;
+	UserService service;
 
 	@PostMapping( value = "/register", consumes = MediaType.APPLICATION_JSON_VALUE )
 	@ResponseBody
 	@CrossOrigin( origins = "http://localhost:3000" )
 	public String inscription( @RequestBody User user ) throws IOException, JSONException
 	{
-		Boolean result = userService.isValidAccountName( user.login );
+		Boolean result = service.isValidAccountName( user.login );
 
 		if( result )
-			userService.addNewUser( user );
+			service.addNewUser( user );
 
 		JSONObject json = new JSONObject();
 		json.put( "success", result );
@@ -44,14 +45,21 @@ public class UserController
 	@CrossOrigin( origins = "http://localhost:3000" )
 	public String signin( @RequestBody User user ) throws IOException, JSONException
 	{
-		Boolean valid = userService.isValidAuthentification( user.login, user.password );
+		Boolean			valid	= service.isValidAuthentification( user.login, user.password );
+		List< String >	favs	= null;
 
 		if( valid )
-			userService.login( user );
+		{
+			service.login( user );
+			favs = service.getUserByLogin( user.login ).favoriteEvent;
+
+			System.out.println( favs.size() );
+		}
 
 		JSONObject json = new JSONObject();
 		json.put( "success", valid );
 		json.put( "idUser", user.login );
+		json.put( "bookmarks", favs );
 		return json.toString();
 	}
 
@@ -60,7 +68,7 @@ public class UserController
 	@CrossOrigin( origins = "http://localhost:3000" )
 	public String singout( @RequestBody User user ) throws IOException, JSONException
 	{
-		userService.logout( user );
+		service.logout( user );
 
 		JSONObject json = new JSONObject();
 		json.put( "success", true );

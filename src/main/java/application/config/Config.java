@@ -10,7 +10,7 @@ import api.entities.Event;
 import api.entities.Parking;
 import domain.CommentaryService;
 import domain.EventService;
-import domain.MarksService;
+import domain.EvaluationService;
 import domain.ParkingService;
 import domain.UserService;
 import infra.factory.EventFactory;
@@ -43,9 +43,9 @@ public class Config
 	}
 
 	@Bean
-	public MarksService getMarksService()
+	public EvaluationService getMarksService()
 	{
-		return new MarksService();
+		return new EvaluationService();
 	}
 
 	@Bean

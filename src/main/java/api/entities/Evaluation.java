@@ -3,10 +3,10 @@ package api.entities;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties( ignoreUnknown = true )
-public class Mark
+public class Evaluation
 {
-	public String	recordid;
-	public String	userid;
+	public String	eventId;
+	public String	userId;
 
-	public byte score;
+	public Double evaluation;
 }

@@ -16,9 +16,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import api.entities.Event;
 import api.entities.EventLocation;
-import api.entities.Mark;
+import domain.EvaluationService;
 import domain.EventService;
-import domain.MarksService;
 import domain.UserService;
 
 @Controller
@@ -32,7 +31,7 @@ public class EventController
 	UserService userService;
 
 	@Autowired
-	MarksService marksService;
+	EvaluationService marksService;
 
 	@GetMapping( "/all" )
 	@ResponseBody
@@ -57,14 +56,6 @@ public class EventController
 	{
 		System.out.println( location.latitude + " " + location.longitude + " " + location.radius );
 		return eventService.findWithin( location.latitude, location.longitude, location.radius );
-	}
-
-	@PostMapping( value = "/rate", consumes = MediaType.APPLICATION_JSON_VALUE )
-	@ResponseBody
-	@CrossOrigin( origins = "http://localhost:3000" )
-	public void rateEvent( @RequestBody Mark mark ) throws IOException
-	{
-		marksService.rate( mark );
 	}
 
 	@GetMapping( "/charger" )

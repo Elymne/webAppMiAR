@@ -29,7 +29,7 @@ public class EventService
 	@Scheduled( fixedRate = ( 1000 * 60 * 60 * 24 ) ) // Scheduled for once a day.
 	public void update()
 	{
-		collection.saveAll( factory.build( repository.getAll() ) );
+		// collection.saveAll( factory.build( repository.getAll() ) );
 	}
 
 	@Value( "${event.week}" )

@@ -68,6 +68,22 @@ public class UserService
 		collection.save( user );
 	}
 
+	public void addBookmarks( String userId, String eventId )
+	{
+		User user = collection.findByLogin( userId );
+		user.favoriteEvent.add( eventId );
+
+		collection.save( user );
+	}
+
+	public void removeBookmarks( String userId, String eventId )
+	{
+		User user = collection.findByLogin( userId );
+		user.favoriteEvent.remove( eventId );
+
+		collection.save( user );
+	}
+
 	public boolean isConnected( User requestingUser )
 	{
 		User user = this.getUserByLogin( requestingUser.login );

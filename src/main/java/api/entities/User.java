@@ -1,5 +1,8 @@
 package api.entities;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.data.annotation.Id;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -8,8 +11,9 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 public class User
 {
 	@Id
-	public String login;
-
+	public String	login;
 	public String	password;
-	public boolean	connected	= false;
+
+	public boolean			connected		= false;
+	public List< String >	favoriteEvent	= new ArrayList<>();
 }
