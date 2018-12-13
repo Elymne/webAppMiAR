@@ -1,12 +1,13 @@
 import React, { Component } from 'react'
 import noimagefound from './assets/noimagefound.png'
 import user_icon from './assets/user_icon.jpg'
-import { loadState } from './helperFunctions/sessionStorage'
+import { loadState, saveState } from './helperFunctions/sessionStorage'
 
 let persistedLoad = null
 let user = null
 let headers = new Headers();
 headers.set( "Content-Type", "application/json" );
+
 
 const fetchEvent = async id =>
 {
@@ -23,8 +24,10 @@ export default class EventPage extends Component
     comments: [], // list of comments for this event
     newComment: '',
     starNote: '',
-    isMarked: false,
-    isImageExist: true
+    isMarked: loadState() && loadState().bookmarks.includes(this.props.match.params.event_id),
+    isImageExist: true,
+    averageNote: '',
+    parkings: [] 
   }
 
   // loading event data and comments for this event
@@ -46,7 +49,15 @@ export default class EventPage extends Component
         comments: data
       })
     }
+    const fetchAverageNote = async () => {
+      const response = await fetch(`http://localhost:8080/evaluation/getByEvent/${this.props.match.params.event_id}`)
+      const data = await response.json()
+      this.setState({
+        averageNote: data
+      })
+    }
     fetchEvents()
+    fetchAverageNote()
   }
 
 
@@ -58,34 +69,43 @@ export default class EventPage extends Component
 
   handleBookMark = (e) => {
     const postFetchBookmarks = (action) => {
-      let id = this.props.match.params.event_id
       fetch(`http://localhost:8080/bookmarks/${action}`, {
         method: 'POST',
         headers,
-        body:JSON.stringify({eventId: id, userId: user})
+        body:JSON.stringify({eventId: id, userId: user.idUser})
         })
       .then((res) => res.json())
       .then((data) =>  {
-          console.log(data)
+        // console.log(data)
       })
       .catch((err)=>console.log(err))
     }
 
-    let mark = document.getElementById("bookmark_add")
-    if (!this.state.isMarked){
-      mark.style.color = "#b71c1c"
-      this.setState({
-        isMarked: true
-      })
-      postFetchBookmarks("add")
-    }
-    else {
-      mark.style.color = "#9e9e9e"
+    let bookmarks
+    user = loadState()
+    let id = this.props.match.params.event_id
+
+    if (this.state.isMarked){   // remove event_id from sessionStorage and fetch in bd
       this.setState({
         isMarked: false
       })
       postFetchBookmarks("remove")
+      user.bookmarks = user.bookmarks.replace(id, '')
     }
+    else {  // add event_id in sessionStorage and fetch in bd
+      this.setState({
+        isMarked: true
+      })
+      postFetchBookmarks("add")
+      if (user.bookmarks.length <= 2){
+        user.bookmarks = "["+id+"]"
+      }
+      else {
+        bookmarks = user.bookmarks.substring(0, user.bookmarks.length-1)+","+id+"]"
+        user.bookmarks = bookmarks
+      }
+    }
+    saveState(user)
   }
   
   handleStarClick = (e) => {
@@ -106,7 +126,6 @@ export default class EventPage extends Component
   }
 
   handleAddNote = (e) => {
-    console.log(this.state.starNote)
     let id = this.props.match.params.event_id
     fetch('http://localhost:8080/evaluation/add', {
       method: 'POST',
@@ -115,13 +134,21 @@ export default class EventPage extends Component
     })
     .then((res) => res.json())
     .then((data) =>  {
-        console.log(data)
+        // console.log(data)
     })
     .catch((err)=>console.log(err))
   }
 
+  // server method for parkings not working yet
   handleParkings = (e) => {
     console.log(e.target)
+    // const fetchParkings = async () => {
+    //   const response = await fetch(`http://localhost:8080/parking/nearby/${this.props.match.params.event_id}`)
+    //   const data = await response.json()
+    //   this.setState({
+    //     parkings: data
+    //   })
+    // }
   }
 
   handleTextChange = (e) => {
@@ -132,42 +159,38 @@ export default class EventPage extends Component
 
   handleAddComment = (e) => {
     e.preventDefault()
-    let text = document.getElementById('textarea1').value;
+    let { newComment } = this.state
     let id = this.props.match.params.event_id
-    
-    console.log(text)
-    console.log(id)
-    console.log(user)
+
     fetch('http://localhost:8080/commentary/add', {
       method: 'POST',
       headers,
-      body: JSON.stringify({message: text, idUser: user, idEvent: id})
+      body: JSON.stringify({message: newComment, idUser: user, idEvent: id})
     }).then((res) => res.json())
     .then((data) =>  {
-        console.log(data)
-        let newComment = {idUser: user, message: text}
+        // console.log(data)
+        let addComment = {idUser: user, message: newComment}
         this.setState({
-          comments: [...this.state.comments, newComment]
+          comments: [...this.state.comments, addComment],
+          newComment: ''
         })
     })
     .catch((err)=>console.log(err))
-    
   }
 
 
 	render()
 	{
     persistedLoad = loadState()
-    user = sessionStorage.length > 0 ? persistedLoad.idUser : null  // userId if connected
-    let bookmark_btn = user ? <i onClick={this.handleBookMark} className="small material-icons" id="bookmark_add" >bookmark</i> : null
-    const { event, comments, isImageExist } = this.state;
-    console.log(user) // for debugging
+    user = persistedLoad ? persistedLoad.idUser : null  // userId if connected
+    const { event, comments, isImageExist, isMarked, averageNote } = this.state
+    let bookmark_btn = user ? <i onClick={this.handleBookMark} className={`small material-icons ${ isMarked ? 'red_bookmark': 'grey_bookmark'} `}  id="bookmark_add" >bookmark</i> : null
     let image
     if (isImageExist){
-      image = <img src={event.media_1} alt="some event" onError={this.handleImageError} />
+      image = <img className="img-responsive" src={event.media_1} alt="some event" onError={this.handleImageError} />
     }
     else {
-      image = <img src={noimagefound} alt="not found"/>
+      image = <img className="img-responsive" src={noimagefound} alt="not found"/>
     }
 
     const stars = () => {
@@ -189,35 +212,42 @@ export default class EventPage extends Component
       )
     })
 
+    // for human readable date
+    let dateObj = new Date(Date.parse(event.date))
+    let dateRead = dateObj.toDateString()
+
 		return (
       <div className="container">
         <div className="card event_container">
           <span className="card-title">{ event.nom }</span>
           { bookmark_btn }
+          <p>Average Note: { averageNote === 0 ? 'no notes yet' : averageNote}</p>
           <blockquote>{ event.description }</blockquote>
-          <div className="row">
-            <div className="col s6">
+          <h6 className="event-date">Date of event: { dateRead }</h6>
+          <h6 className="event-time">Time: { ` ${event.heure_debut} - ${event.heure_fin} `}</h6>
+          <h6 className="event-time">Address: {`${event.lieu} - ${event.adresse}, Nantes`}</h6>
+          <div className="row event-body">
+            <div className="col m12 l6">
               {image}
             </div>
-            <div className="col s6">
-              <h6>some stairs to note event</h6>
+            <div className="col m12 l6 user_actions_group">
               <div className="stars_container">
                 {stars()}
               </div>
               <button onClick = {this.handleAddNote} disabled={!user} className="waves-effect waves-light btn post_star_btn">note event</button> <br />
-              <h6 className="parking-title-btn">Looking for parking near by this event</h6>
               <i className="small material-icons car-icon ">directions_car</i>
+              <h6 className="parking-title-btn">Looking for parking near by this event</h6>
               <button onClick = {this.handleParkings} className="waves-effect waves-light btn blue darken-3">get list of parkings</button> 
             </div>
           </div>
           <div className="row comment_block">
-            <div className="comment_section col s6">
+            <div className="comment_section col s12 m6">
               <h5>Comments: </h5>
                 <ul className="collection">
-                  { commentsList }
+                  { commentsList.length > 0 ? commentsList : 'No comments yet. Become first!' }
                 </ul>
             </div>
-            <div className="col s6">
+            <div className="col s12 m6">
               <label htmlFor="textarea1">Write your thoughts about it...</label>
               <textarea onChange={this.handleTextChange} value={this.state.newComment} id="textarea1" className="materialize-textarea" placeholder="leave your honest opinion"></textarea>
               <button onClick = {this.handleAddComment} disabled={!user} className="waves-effect waves-light btn add_comment_btn green darken-2">add new comment</button> 

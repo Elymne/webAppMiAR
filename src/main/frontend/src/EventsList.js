@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { exctractEventsData, types, dates } from './helperFunctions/exctractEventsData'
+import { loadState } from './helperFunctions/sessionStorage'
 import noimagefound from './assets/noimagefound.png'
+
+let persistedLoad = null
 
 class EventsList extends Component {
   state = {
@@ -11,8 +14,13 @@ class EventsList extends Component {
   }
 
   componentDidMount(){
+    let path = null   // to distinguish routes '/' et '/user/bookmarks' using the same component
+    if (this.props.match){
+      path = this.props.match.path
+    }
     this.setState({
-      isLoading: true
+      isLoading: true,
+      path
     });
     const fetchEvents = async () => {
       const response = await fetch('http://localhost:8080/evenement/all')
@@ -21,8 +29,10 @@ class EventsList extends Component {
         events: data,
         isLoading: false
       })
-      exctractEventsData(data)
-      this.props.handleSelectedTypes(types, dates)
+      if (!this.props.match){
+        exctractEventsData(data)
+        this.props.handleSelectedTypes(types, dates)
+      } 
     }
     fetchEvents()
   }
@@ -39,7 +49,7 @@ class EventsList extends Component {
         body:JSON.stringify({latitude: lat, longitude: long, radius: rad})
       }).then((res) => res.json())
       .then((data) =>  {
-        console.log(data)
+        // console.log(data)
         this.setState({
             events: data
         })
@@ -70,7 +80,18 @@ class EventsList extends Component {
       )
     }
 
-    if (filter === 'text'){
+    // for bookmarks
+    persistedLoad = loadState()
+    if (sessionStorage.length > 0 && this.state.path){
+      let bookmarks = persistedLoad.bookmarks
+      filteredEvents = null
+      filteredEvents = events.filter (
+        (event) => {
+          return bookmarks.includes(event.recordid)
+        }
+      )
+    }
+    else if (filter === 'text'){
       filteredEvents = events.filter(
         (event) => {
           return event.nom.toLowerCase().indexOf(search.toLowerCase()) !== -1;
@@ -89,12 +110,6 @@ class EventsList extends Component {
       )
     }
 
-    // -----DEBUG events key repetition
-    // filteredEvents.forEach(event => {
-    //   console.log(event.recordid)
-    // })
-    // console.log(filteredEvents.length)
-
     let eventsList = filteredEvents.map(event => {
       let image
       if (this.state.isImageExist){
@@ -103,7 +118,6 @@ class EventsList extends Component {
       else {
         image = <div className="event-img" style={{backgroundImage:`url(${noimagefound})`}}></div>
       }
-
       return filteredEvents.length > 0 ? (
         <div key={event.recordid} className="card hoverable event">
           <div className="card-image">
@@ -115,6 +129,7 @@ class EventsList extends Component {
         </div>
       ): null
     })
+
     return (
       <div className="container">
         <div className="EventsList">
