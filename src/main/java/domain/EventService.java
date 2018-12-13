@@ -20,6 +20,7 @@ import org.joda.time.LocalDateTime;
 import api.ILoader;
 import api.IDatabaseCollection;
 import ch.qos.logback.classic.gaffer.PropertyUtil;
+import org.springframework.stereotype.Service;
 
 public class EventService {
 
@@ -38,10 +39,6 @@ public class EventService {
     Delta delta = new Delta();
 
     public List< Event> getAllEvents() {
-        final Properties prop = new Properties();
-        InputStream input = null;
-        InputStream inputStream = null;
-
         List<Event> res = new ArrayList<>();
         LocalDateTime date = new LocalDateTime();
         String[] parts = null;
@@ -49,29 +46,18 @@ public class EventService {
         if (eventQuery.getAll().isEmpty()) {
             eventLoader.loadDatabase();
         }
-
-        try {
-            inputStream = PropertyUtil.class.getResourceAsStream("src/main/resources/application.properties");
-            //input = new FileInputStream("src/main/resources/application.properties");
-            prop.load(inputStream);
-
-            for (Event event : eventQuery.getAll()) {
-                parts = event.date.split("-");
-                year = Integer.parseInt(parts[0]);
-                month = Integer.parseInt(parts[1]);
-                day = Integer.parseInt(parts[2]);
-                if (date.getYear() == year) {
-                    if (date.getMonthOfYear() == month) {
-                        if (date.getDayOfMonth() + Integer.parseInt(prop.getProperty("event.week")) >= day) {
-                            res.add(event);
-                        }
+        for (Event event : eventQuery.getAll()) {
+            parts = event.date.split("-");
+            year = Integer.parseInt(parts[0]);
+            month = Integer.parseInt(parts[1]);
+            day = Integer.parseInt(parts[2]);
+            if (date.getYear() == year) {
+                if (date.getMonthOfYear() == month) {
+                    if (date.getDayOfMonth() + 14 >= day) {
+                        res.add(event);
                     }
                 }
             }
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(MongoDatabaseClient.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(MongoDatabaseClient.class.getName()).log(Level.SEVERE, null, ex);
         }
         return res;
     }

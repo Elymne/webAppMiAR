@@ -1,6 +1,7 @@
 package api;
 
 import java.util.List;
+import org.springframework.stereotype.Service;
 
 public interface IDatabaseCollection< T> {
 
